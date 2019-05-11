@@ -8,7 +8,7 @@ api_auth_login:
     path: /login_check
     methods: [POST]
 
-api_controller:
-    host: 'api.ojbento.fr'
-    resource: ../../src/ApiController/
-    type: annotation
+#api_controller:
+    #    host: 'api.ojbento.fr'
+    #    resource: ../../src/ApiController/
+    #  type: annotation

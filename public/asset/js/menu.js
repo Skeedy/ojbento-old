@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     var $collectionHolder;
-    var $addItemButton = $('<button type= "button" class="add_item_link">Ajouter un prix </button>');
+    var $addItemButton = $('<button type= "button" class="add_item_link">Ajouter un produit </button>');
     var $newPrice = $('<div></div>').append($addItemButton);
 
     $collectionHolder = $('#menu_assoc');
@@ -17,7 +17,7 @@ $(document).ready(function(){
 });
 
 function addPriceFormDelete(arg){
-    var $removeFormButton = $('<button type="button">Supprimer le prix</button>');
+    var $removeFormButton = $('<button type="button">Supprimer le produit</button>');
     arg.append($removeFormButton);
     $removeFormButton.on('click', function(e){
         arg.remove();

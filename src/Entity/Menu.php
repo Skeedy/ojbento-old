@@ -28,14 +28,18 @@ class Menu
      */
     private $midi;
 
+
+    private $quantity;
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Assoc")
      */
-    private $quantity;
+    private $assoc;
 
     public function __construct()
     {
         $this->quantity = new ArrayCollection();
+        $this->assoc = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,6 +59,18 @@ class Menu
         return $this;
     }
 
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
     public function getMidi(): ?bool
     {
         return $this->midi;
@@ -70,26 +86,28 @@ class Menu
     /**
      * @return Collection|Assoc[]
      */
-    public function getQuantity(): Collection
+    public function getAssoc(): Collection
     {
-        return $this->quantity;
+        return $this->assoc;
     }
 
-    public function addQuantity(Assoc $quantity): self
+    public function addAssoc(Assoc $assoc): self
     {
-        if (!$this->quantity->contains($quantity)) {
-            $this->quantity[] = $quantity;
+        if (!$this->assoc->contains($assoc)) {
+            $this->assoc[] = $assoc;
         }
 
         return $this;
     }
 
-    public function removeQuantity(Assoc $quantity): self
+    public function removeAssoc(Assoc $assoc): self
     {
-        if ($this->quantity->contains($quantity)) {
-            $this->quantity->removeElement($quantity);
+        if ($this->assoc->contains($assoc)) {
+            $this->assoc->removeElement($assoc);
         }
 
         return $this;
     }
+
+
 }

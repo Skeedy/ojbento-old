@@ -55,4 +55,9 @@ class Assoc
 
         return $this;
     }
+
+    public function __toString() : string
+    {
+        return $this->getProduct();
+    }
 }

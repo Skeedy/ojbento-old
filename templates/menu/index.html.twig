@@ -10,6 +10,8 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Quantity</th>
+                <th>Assoc</th>
                 <th>Midi</th>
                 <th>actions</th>
             </tr>
@@ -19,6 +21,8 @@
             <tr>
                 <td>{{ menu.id }}</td>
                 <td>{{ menu.name }}</td>
+                <td>{% for item in menu.assoc %}<li>{{ item.quantity }}</li> {%  endfor %}</td>
+                <td>{% for item in menu.assoc %}<li>{{ item.product.name }}</li> {%  endfor %}</td>
                 <td>{{ menu.midi ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('menu_show', {'id': menu.id}) }}">show</a>

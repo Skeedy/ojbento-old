@@ -78,6 +78,7 @@ class Assoc
         return $this;
     }
 
+
     public function getIsDish(): ?bool
     {
         return $this->isDish;
@@ -136,5 +137,10 @@ class Assoc
     public function __toString(): string
     {
         return $this->getQuantity()." ".$this->getProduct();
+
+    public function __toString() : string
+    {
+        return $this->getProduct();
+
     }
 }

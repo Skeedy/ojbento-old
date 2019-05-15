@@ -28,13 +28,23 @@ class Menu
      */
     private $midi;
 
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Assoc",cascade={"all"}, mappedBy="menu")
+
+
+    private $quantity;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Assoc")
+
      */
     private $assoc;
 
     public function __construct()
     {
+
+        $this->quantity = new ArrayCollection();
         $this->assoc = new ArrayCollection();
     }
 
@@ -51,6 +61,20 @@ class Menu
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -78,7 +102,7 @@ class Menu
     public function addAssoc(Assoc $assoc): self
     {
         if (!$this->assoc->contains($assoc)) {
-            $this->assoc[] = $assoc;
+            $this->assoc[] = $assoc
             $assoc->setMenu($this);
         }
 

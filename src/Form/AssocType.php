@@ -13,8 +13,9 @@ class AssocType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+
+            ->add('product', ProductType::class)
             ->add('quantity')
-            ->add('product')
             ->add('isDish')
             ->add('prices' , CollectionType::class, [
                 'entry_type' => PriceassocType::class,

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Product
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="products")
      */
     private $type;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Allergen")
+     */
+    private $allergens;
+
+    public function __construct()
+    {
+        $this->allergens = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,5 +103,31 @@ class Product
     public function __toString()
     {
       return $this->getName();
+    }
+
+    /**
+     * @return Collection|Allergen[]
+     */
+    public function getAllergen(): Collection
+    {
+        return $this->allergens;
+    }
+
+    public function addAllergen(Allergen $allergen): self
+    {
+        if (!$this->allergens->contains($allergen)) {
+            $this->allergens[] = $allergen;
+        }
+
+        return $this;
+    }
+
+    public function removeAllergen(Allergen $allergen): self
+    {
+        if ($this->allergens->contains($allergen)) {
+            $this->allergens->removeElement($allergen);
+        }
+
+        return $this;
     }
 }

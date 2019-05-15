@@ -1,7 +1,6 @@
 <?php
 namespace App\ApiController;
 use App\Entity\Assoc;
-use App\Form\ApiAssocType;
 use App\Repository\AllergenRepository;
 use App\Repository\AssocRepository;
 use App\Repository\ProductRepository;

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,21 @@ class Assoc
      * @ORM\JoinColumn(nullable=false)
      */
     private $product;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDish;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Priceassoc", cascade={"all"} , mappedBy="assoc", orphanRemoval=true)
+     */
+    private $prices;
+
+    public function __construct()
+    {
+        $this->prices = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +69,49 @@ class Assoc
     public function setProduct(Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getIsDish(): ?bool
+    {
+        return $this->isDish;
+    }
+
+    public function setIsDish(bool $isDish): self
+    {
+        $this->isDish = $isDish;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Priceassoc[]
+     */
+    public function getPrices(): Collection
+    {
+        return $this->prices;
+    }
+
+    public function addPrice(Priceassoc $price): self
+    {
+        if (!$this->prices->contains($price)) {
+            $this->prices[] = $price;
+            $price->setAssoc($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrice(Priceassoc $price): self
+    {
+        if ($this->prices->contains($price)) {
+            $this->prices->removeElement($price);
+            // set the owning side to null (unless already changed)
+            if ($price->getAssoc() === $this) {
+                $price->setAssoc(null);
+            }
+        }
 
         return $this;
     }

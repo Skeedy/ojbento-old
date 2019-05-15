@@ -48,5 +48,5 @@ services:
               arguments: ["@circular_reference_handler"]
 
     form.type.model.priceType:
-        class: App\Form\PriceType
+        class: App\Form\PriceassocType
         arguments: ["@doctrine.orm.entity_manager"]

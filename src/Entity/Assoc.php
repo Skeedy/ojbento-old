@@ -39,6 +39,11 @@ class Assoc
      */
     private $prices;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Menu", inversedBy="assoc")
+     */
+    private $menu;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -114,5 +119,22 @@ class Assoc
         }
 
         return $this;
+    }
+
+    public function getMenu(): ?Menu
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?Menu $menu): self
+    {
+        $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getQuantity()." ".$this->getProduct();
     }
 }

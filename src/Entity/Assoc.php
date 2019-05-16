@@ -45,6 +45,11 @@ class Assoc
     private $menu;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Assoc", inversedBy="image")
+     */
+    private $assoc;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -144,6 +149,18 @@ class Assoc
         return $this->getQuantity()." ".$this->getProduct();
     }
 
+    public function getAssoc(): ?self
+    {
+        return $this->assoc;
+    }
+
+    public function setAssoc(?self $assoc): self
+    {
+        $this->assoc = $assoc;
+
+        return $this;
+    }
+
     public function getImage(): ?Image
     {
         return $this->image;
@@ -155,4 +172,6 @@ class Assoc
 
         return $this;
     }
+    
+
 }

@@ -36,24 +36,10 @@ class AssocController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
 
             $entityManager = $this->getDoctrine()->getManager();
-            $image = $assoc->getImage();
-            $file = $form->get('image')->get('file')->getData();
 
-            if ($file){
 
-                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('img_abs_path'), $fileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
 
                 $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
                 $image->setImgpath($this->getParameter('img_path').'/'.$fileName);

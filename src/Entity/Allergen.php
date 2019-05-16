@@ -23,6 +23,7 @@ class Allergen
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $image;
 
@@ -43,19 +44,20 @@ class Allergen
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getImage(): ?Image
     {
         return $this->image;
     }
 
-    public function setImage(?Image $image): self
+    public function setImage(Image $image): self
     {
         $this->image = $image;
 
         return $this;
-    }
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

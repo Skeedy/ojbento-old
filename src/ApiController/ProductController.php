@@ -48,15 +48,14 @@ class ProductController extends AbstractFOSRestController
      * @Rest\View()
      * @return View;
      */
-    public  function create(Request $request, AllergenRepository $allergenRepository, TypeRepository $typeRepository): View
+    public  function create(Request $request, AllergenRepository $allergenRepository): View
     {
         $em = $this->getDoctrine()->getManager();
         $product = new Product();
         $product->setName($request->get('name'));
         $product->setDescription($request->get('description'));
         $product->setComposition($request->get('composition'));
-        $type = $typeRepository->find($request->get('type'));
-        $product->setType($type);
+        $product->setType($request->get('type'));
         $allergenId =$request->get('allergen');
         foreach ($allergenId as $allergen){
             $aller = $allergenRepository->find($allergen);

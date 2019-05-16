@@ -18,14 +18,14 @@ class Image
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $imgpath;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $path;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imgpath;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -42,26 +42,26 @@ class Image
         return $this->id;
     }
 
-    public function getImgpath(): ?string
-    {
-        return $this->imgpath;
-    }
-
-    public function setImgpath(string $imgpath): self
-    {
-        $this->imgpath = $imgpath;
-
-        return $this;
-    }
-
     public function getPath(): ?string
     {
         return $this->path;
     }
 
-    public function setPath(string $path): self
+    public function setPath(?string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getImgpath(): ?string
+    {
+        return $this->imgpath;
+    }
+
+    public function setImgpath(?string $imgpath): self
+    {
+        $this->imgpath = $imgpath;
 
         return $this;
     }
@@ -83,14 +83,10 @@ class Image
         return $this->file;
     }
 
+
     public function setFile($file)
     {
         $this->file = $file;
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getImgpath();
     }
 }

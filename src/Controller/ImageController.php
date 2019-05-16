@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * @Route("/image")
@@ -36,38 +35,11 @@ class ImageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($image);
+            $entityManager->flush();
 
-            // $file stores the uploaded PDF file
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $form->get('file')->getData();
-            if($file) {
-                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('img_abs_path'), $fileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochure' property to store the PDF file name
-                // instead of its contents
-
-
-                // ... persist the $product variable or any other work
-
-                $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
-                $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($image);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('image_index');
-            }
-
+            return $this->redirectToRoute('image_index');
         }
 
         return $this->render('image/new.html.twig', [
@@ -96,39 +68,10 @@ class ImageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $file = $form->get('file')->getData();
-            if($file) {
-                $this->removeFile($image->getPath());
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->remove($image);
 
-                $fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('img_abs_path'), $fileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochure' property to store the PDF file name
-                // instead of its contents
-
-
-                // ... persist the $product variable or any other work
-
-                $image->setPath($this->getParameter('img_abs_path') . '/' . $fileName);
-                $image->setImgpath($this->getParameter('img_path') . '/' . $fileName);
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($image);
-                $entityManager->flush();
-                return $this->redirectToRoute('image_index', [
-                    'id' => $image->getId(),
-                ]);
-            }
+            return $this->redirectToRoute('image_index', [
+                'id' => $image->getId(),
+            ]);
         }
 
         return $this->render('image/edit.html.twig', [
@@ -143,23 +86,11 @@ class ImageController extends AbstractController
     public function delete(Request $request, Image $image): Response
     {
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
-            $this->removeFile($image->getPath());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($image);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('image_index');
-    }
-
-    function generateUniqueFileName() {
-
-        return md5(uniqid());
-    }
-
-    private function removeFile($path){
-        if(file_exists($path)){
-            unlink($path);
-        }
     }
 }

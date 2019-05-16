@@ -44,6 +44,12 @@ class Assoc
      */
     private $menu;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $image;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -136,5 +142,17 @@ class Assoc
     public function __toString(): string
     {
         return $this->getQuantity()." ".$this->getProduct();
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

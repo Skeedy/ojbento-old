@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ allergen.id }}</td>
                 <td>{{ allergen.name }}</td>
-                <td>{% if allergen.image %} <img src="{{ asset(allergen.image.imgpath) }}" width="200px" /> {% endif %}</td>
+                <td><img src="{{ asset(allergen.image.imgpath) }}" width="200px" /></td>
                 <td>
                     <a href="{{ path('allergen_show', {'id': allergen.id}) }}">show</a>
                     <a href="{{ path('allergen_edit', {'id': allergen.id}) }}">edit</a>

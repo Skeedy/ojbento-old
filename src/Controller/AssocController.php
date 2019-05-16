@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Assoc;
+use App\Entity\Product;
 use App\Form\AssocType;
 use App\Repository\AssocRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,32 @@ class AssocController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+
             $entityManager = $this->getDoctrine()->getManager();
+            $image = $assoc->getImage();
+            $file = $form->get('image')->get('file')->getData();
+
+            if ($file){
+
+                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('img_abs_path'), $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
+                $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
+                $entityManager->persist($image);
+            }else{
+                $assoc->setImage(null);
+            }
+
             $entityManager->persist($assoc);
             $entityManager->flush();
 
@@ -67,6 +93,31 @@ class AssocController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $image = $assoc->getImage();
+            $file = $form->get('image')->get('file')->getData();
+
+            if ($file){
+                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('img_abs_path'), $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $this->removeFile($image->getPath());
+                $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
+                $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
+                $entityManager->persist($image);
+            }
+
+            if (empty($image->getId()) && !$file ){
+                $assoc->setImage(null);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('assoc_index', [
@@ -81,6 +132,25 @@ class AssocController extends AbstractController
     }
 
     /**
+     * @Route("/{id}", name="assoc_img_delete", methods={"POST"})
+     */
+    public function deleteImg(Request $request, Assoc $assoc): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$assoc->getId(), $request->request->get('_token'))) {
+            $image = $assoc->getImage();
+            $this->removeFile($image->getPath());
+
+            $assoc->setImage(null);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($image);
+            $entityManager->persist($assoc);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('product_edit', array('id'=>$assoc->getId()));
+    }
+
+    /**
      * @Route("/{id}", name="assoc_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Assoc $assoc): Response
@@ -92,5 +162,19 @@ class AssocController extends AbstractController
         }
 
         return $this->redirectToRoute('assoc_index');
+    }
+
+    /**
+     * @return string
+     */
+    function generateUniqueFileName() {
+
+        return md5(uniqid());
+    }
+
+    private function removeFile($path){
+        if(file_exists($path)){
+            unlink($path);
+        }
     }
 }

@@ -30,3 +30,4 @@ class AuthController extends AbstractFOSRestController
         return View::create($this->getUser(),Response::HTTP_OK);
     }
 }
+

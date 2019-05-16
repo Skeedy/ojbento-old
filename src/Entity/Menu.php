@@ -33,9 +33,15 @@ class Menu
      */
     private $assoc;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pricemenu", cascade={"all"}, mappedBy="menu", orphanRemoval=true)
+     */
+    private $prices;
+
     public function __construct()
     {
         $this->assoc = new ArrayCollection();
+        $this->prices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +98,37 @@ class Menu
             // set the owning side to null (unless already changed)
             if ($assoc->getMenu() === $this) {
                 $assoc->setMenu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pricemenu[]
+     */
+    public function getPrices(): Collection
+    {
+        return $this->prices;
+    }
+
+    public function addPrice(Pricemenu $price): self
+    {
+        if (!$this->prices->contains($price)) {
+            $this->prices[] = $price;
+            $price->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrice(Pricemenu $price): self
+    {
+        if ($this->prices->contains($price)) {
+            $this->prices->removeElement($price);
+            // set the owning side to null (unless already changed)
+            if ($price->getMenu() === $this) {
+                $price->setMenu(null);
             }
         }
 

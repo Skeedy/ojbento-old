@@ -45,4 +45,10 @@ class AssocType extends AbstractType
         $builder->get('menu')
             ->addModelTransformer($tranformer);
     }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Assoc::class,
+        ]);
+    }
 }

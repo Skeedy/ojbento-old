@@ -38,3 +38,25 @@ class ProductType extends AbstractType
         ]);
     }
 }
+
+class ApiProductType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('type', EntityType::class,[
+                'class' => Type::class,
+                'expanded' => true,
+                'multiple' => false,
+            ])
+            ->add('name')
+            ->add('description')
+            ->add('composition')
+            ->add('allergen', EntityType::class,[
+                'class'=> Allergen::class,
+                'expanded'=> true,
+                'multiple'=> true
+            ])
+        ;
+    }
+}

@@ -48,20 +48,15 @@ class ProductController extends AbstractFOSRestController
      * @Rest\View()
      * @return View;
      */
-    public  function create(Request $request, AllergenRepository $allergenRepository): View
+    public  function create(Request $request, AllergenRepository $allergenRepository, TypeRepository $typeRepository): View
     {
         $em = $this->getDoctrine()->getManager();
         $product = new Product();
         $product->setName($request->get('name'));
         $product->setDescription($request->get('description'));
         $product->setComposition($request->get('composition'));
-        $product->setType($request->get('type'));
-        $allergenId =$request->get('allergen');
-        foreach ($allergenId as $allergen){
-            $aller = $allergenRepository->find($allergen);
-            $product->addAllergen($aller);
-            $em->persist($aller);
-        }
+        $type = $typeRepository->findAll($request->get('type'));
+        $product->setType($type);
         $em ->persist($product);
         $em->flush();
         return View::create($product, Response::HTTP_CREATED);
@@ -75,12 +70,14 @@ class ProductController extends AbstractFOSRestController
      * @param Product $product
      * @return View;
      */
-    public function edit(Request $request, Product $product): View
+    public function edit(Request $request, Product $product, TypeRepository $typeRepository): View
     {
         if($product){
             $product->setName($request->get('name'));
             $product->setDescription($request->get('description'));
-            $product->addAllergen($request->get('allergen'));
+            $product->setComposition($request->get('composition'));
+            $type = $typeRepository->findAll($request->get('type'));
+            $product->setType($type);
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();

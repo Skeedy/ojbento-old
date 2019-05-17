@@ -11,3 +11,7 @@
 
     {{ include('assoc/_delete_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+    <script src ="{{ (asset('asset/js/assoc.js')) }}" type="text/javascript"></script>
+{% endblock %}

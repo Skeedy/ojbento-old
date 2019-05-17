@@ -13,6 +13,7 @@ class AllergenType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('image', ImageType::class)
         ;
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Allergen;
 use App\Entity\Assoc;
 use App\Form\DataTransformer\MenuToNumberTransformer;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -15,7 +17,8 @@ class AssocType extends AbstractType
 {
     protected $em;
 
-    public function __construct(EntityManager $em){
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
 
@@ -23,32 +26,23 @@ class AssocType extends AbstractType
     {
         $tranformer = new MenuToNumberTransformer($this->em);
         $builder
-
             ->add('product', ProductType::class)
             ->add('quantity')
+            ->add('image', ImageType::class)
             ->add('isDish')
-            ->add('prices' , CollectionType::class, [
+            ->add('prices', CollectionType::class, [
                 'entry_type' => PriceassocType::class,
                 'entry_options' => [
                     'label' => false,
-                    'attr' => array('class'=> 'prices')
+                    'attr' => array('class' => 'prices')
                 ],
-                'prototype'=> true,
+                'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false
             ])
-            ->add('menu', HiddenType::class)
-
-        ;
+            ->add('menu', HiddenType::class);
         $builder->get('menu')
             ->addModelTransformer($tranformer);
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Assoc::class,
-        ]);
     }
 }

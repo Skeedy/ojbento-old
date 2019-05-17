@@ -35,7 +35,34 @@ class AllergenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // $file stores the uploaded PDF file
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+
             $entityManager = $this->getDoctrine()->getManager();
+            $image = $allergen->getImage();
+            $file = $form->get('image')->get('file')->getData();
+
+            if ($file){
+
+                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('img_allergen_abs_path'), $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $image->setPath($this->getParameter('img_allergen_abs_path').'/'.$fileName) ;
+                $image->setImgpath($this->getParameter('img_allergen_path').'/'.$fileName);
+                $entityManager->persist($image);
+            }else{
+                $allergen->setImage(null);
+            }
+
+
             $entityManager->persist($allergen);
             $entityManager->flush();
 
@@ -67,6 +94,30 @@ class AllergenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $image = $allergen->getImage();
+            $file = $form->get('image')->get('file')->getData();
+
+            if ($file){
+                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('img_abs_path'), $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $this->removeFile($image->getPath());
+                $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
+                $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
+                $entityManager->persist($image);
+            }
+
+            if (empty($image->getId()) && !$file ){
+                $allergen->setImage(null);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('allergen_index', [
@@ -86,6 +137,10 @@ class AllergenController extends AbstractController
     public function delete(Request $request, Allergen $allergen): Response
     {
         if ($this->isCsrfTokenValid('delete'.$allergen->getId(), $request->request->get('_token'))) {
+            $image = $allergen->getImage();
+            if($image) {
+                $this->removeFile($image->getPath());
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($allergen);
             $entityManager->flush();
@@ -93,4 +148,15 @@ class AllergenController extends AbstractController
 
         return $this->redirectToRoute('allergen_index');
     }
+    function generateUniqueFileName() {
+
+        return md5(uniqid());
+    }
+
+    private function removeFile($path){
+        if(file_exists($path)){
+            unlink($path);
+        }
+    }
+
 }

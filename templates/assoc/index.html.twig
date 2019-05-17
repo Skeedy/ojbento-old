@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Quantity</th>
                 <th>Product</th>
+                <th>Image</th>
                 <th>Price</th>
                 <th>actions</th>
             </tr>
@@ -21,6 +22,7 @@
                 <td>{{ assoc.id }}</td>
                 <td>{{ assoc.quantity }}</td>
                 <td>{{ assoc.product.type }} {{ assoc.product }}</td>
+                <td>{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" width="200px" /> {% endif %}</td>
                 <td>{% for price in assoc.prices %} <div>{{ price.type }} {{ price }}€ </div>{%  endfor %}</td>
 
                 <td>

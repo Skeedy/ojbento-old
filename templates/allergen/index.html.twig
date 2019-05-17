@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Image</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ allergen.id }}</td>
                 <td>{{ allergen.name }}</td>
+                <td><img src="{{ asset(allergen.image.imgpath) }}" width="200px" /></td>
                 <td>
                     <a href="{{ path('allergen_show', {'id': allergen.id}) }}">show</a>
                     <a href="{{ path('allergen_edit', {'id': allergen.id}) }}">edit</a>

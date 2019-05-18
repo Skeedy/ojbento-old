@@ -55,8 +55,14 @@ class ProductController extends AbstractFOSRestController
         $product->setName($request->get('name'));
         $product->setDescription($request->get('description'));
         $product->setComposition($request->get('composition'));
-        $type = $typeRepository->findAll($request->get('type'));
+        $type = $typeRepository->find($request->get('type'));
         $product->setType($type);
+        $allergenId =$request->get('allergen');
+        foreach ($allergenId as $allergen){
+            $aller = $allergenRepository->find($allergen);
+            $product->addAllergen($aller);
+            $em->persist($aller);
+        }
         $em ->persist($product);
         $em->flush();
         return View::create($product, Response::HTTP_CREATED);
@@ -76,8 +82,9 @@ class ProductController extends AbstractFOSRestController
             $product->setName($request->get('name'));
             $product->setDescription($request->get('description'));
             $product->setComposition($request->get('composition'));
-            $type = $typeRepository->findAll($request->get('type'));
+            $type = $typeRepository->find($request->get('type'));
             $product->setType($type);
+            $product->addAllergen($request->get('allergen'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();

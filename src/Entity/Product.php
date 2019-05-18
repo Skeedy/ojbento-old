@@ -130,4 +130,12 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return Collection|Allergen[]
+     */
+    public function getAllergens(): Collection
+    {
+        return $this->allergens;
+    }
 }

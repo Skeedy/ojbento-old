@@ -113,6 +113,12 @@ class Product
         return $this->allergens;
     }
 
+    public function setAllergens(Collection $allergens ): self
+    {
+        $this->allergens = $allergens;
+        return $this;
+    }
+
     public function addAllergen(Allergen $allergen): self
     {
         if (!$this->allergens->contains($allergen)) {
@@ -129,13 +135,5 @@ class Product
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Allergen[]
-     */
-    public function getAllergens(): Collection
-    {
-        return $this->allergens;
     }
 }

@@ -1,10 +1,13 @@
 <?php
 namespace App\ApiController;
+
+use App\Entity\Allergen;
 use App\Entity\Product;
 use App\Form\ApiProductType;
 use App\Repository\AllergenRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller;
@@ -12,6 +15,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @Route("/product", host="api.ojbento.fr")
@@ -76,16 +80,22 @@ class ProductController extends AbstractFOSRestController
      * @param Product $product
      * @return View;
      */
-    public function edit(Request $request, Product $product, TypeRepository $typeRepository): View
+    public function edit( Request $request, Product $product, TypeRepository $typeRepository, AllergenRepository $allergenRepository): View
     {
         if($product){
+            $em = $this->getDoctrine()->getManager();
             $product->setName($request->get('name'));
             $product->setDescription($request->get('description'));
             $product->setComposition($request->get('composition'));
             $type = $typeRepository->find($request->get('type'));
             $product->setType($type);
-            $product->addAllergen($request->get('allergen'));
-            $em = $this->getDoctrine()->getManager();
+            $allergenIds = $request->get('allergen');
+            $allergens = new ArrayCollection();
+            foreach ($allergenIds as $allergen){
+                $aller = $allergenRepository->find($allergen);
+                $allergens->add($aller);
+            }
+            $product->setAllergens($allergens);
             $em->persist($product);
             $em->flush();
         }

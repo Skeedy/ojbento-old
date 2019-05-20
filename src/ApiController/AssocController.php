@@ -51,10 +51,7 @@ class AssocController extends AbstractFOSRestController
     {
         $em = $this->getDoctrine()->getManager();
         $assoc = new Assoc();
-        $assoc->setName($request->get('name'));
-        $assoc->setDescription($request->get('description'));
-        $assoc->setComposition($request->get('composition'));
-
+        $assoc->setProduct($request->get('product'));
 
         $allergenId =$request->get('allergen');
         foreach ($allergenId as $allergen){

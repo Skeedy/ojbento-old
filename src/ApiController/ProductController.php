@@ -4,6 +4,7 @@ namespace App\ApiController;
 use App\Entity\Allergen;
 use App\Entity\Product;
 use App\Form\ApiProductType;
+use App\Form\ProductType;
 use App\Repository\AllergenRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TypeRepository;
@@ -110,12 +111,21 @@ class ProductController extends AbstractFOSRestController
      * @param Product $product
      * @return View;
      */
-    public function patch(Request $request, Product $product): View
+    public function patch(Request $request, Product $product, AllergenRepository $allergenRepository): View
     {
         if($product){
-            $form = $this->createForm(ApiProductType::class, $product);
+            $form = $this->createForm(ProductType::class, $product);
             $form->submit($request->request->all(), false);
             $em = $this->getDoctrine()->getManager();
+            $allergenIds = $request->get('allergen');
+            if (!empty($allergenIds)) {
+                $allergens = new ArrayCollection();
+                foreach ($allergenIds as $allergen) {
+                    $aller = $allergenRepository->find($allergen);
+                    $allergens->add($aller);
+                }
+                $product->setAllergens($allergens);
+            }
             $em->persist($product);
             $em->flush();
         }

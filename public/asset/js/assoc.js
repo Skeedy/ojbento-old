@@ -35,23 +35,17 @@ function addPriceFrom($collectionHolder, $newItemLi) {
     addPriceFormDelete($newFormLi);
 }
 
-var $type = $('#assoc_type');
-// When sport gets selected ...
-$type.change(function() {
-    // ... retrieve the corresponding form.
-    var $form = $(this).closest('form');
-    // Simulate form data, but only include the selected sport value.
-    var data = {};
-    data[$type.attr('name')] = $type.val();
-    // Submit data via AJAX to the form's action path.
-    $.ajax({
-        url : 'http://api.ojbento.fr/type',
-        success: function(data) {
-            for(var i= 0; data.length; i++) {
-                var l = data[i];
 
-                console.log(l);
-                var html = "<option>"+l.name+"</option>";
+$(".test input[type=radio]").change(function() {
+    let type_id = $(this).val();
+    let url = 'http://api.ojbento.fr/product';
+    $.ajax({
+        url : url+'?type='+type_id,
+        success: function(data) {
+            $("#assoc_product").empty();
+            for(let i= 0; i < data.length; i ++){
+                let product = data[i];
+                let html = '<option value="'+product.id+'">'+product.name+'</option>';
                 $("#assoc_product").append(html);
             }
         }

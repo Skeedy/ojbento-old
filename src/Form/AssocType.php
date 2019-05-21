@@ -36,7 +36,8 @@ class AssocType extends AbstractType
                 'class' => Type::class,
                 'multiple'=> false,
                 'expanded'=> true,
-                'mapped'=>false
+                'mapped'=>false,
+                'attr'=> array('class'=>'test')
 
             ]);
 

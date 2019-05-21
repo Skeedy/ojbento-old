@@ -27,10 +27,17 @@ class ProductController extends AbstractFOSRestController
      * @Route("/", name="Productlist_api", methods={"GET"})
      * @Rest\View()
      */
-    public function index(ProductRepository $productRepository): View
+    public function index(ProductRepository $productRepository, Request $request): View
     {
-        $product = $productRepository->findAll();
-        return View::create($product, Response::HTTP_OK);
+        $typeId = $request->get('type');
+        if (!empty($typeId)){
+            $products = $productRepository->findBy(array('type'=>$typeId));
+        }else{
+            $products = $productRepository->findAll();
+        }
+
+
+        return View::create($products, Response::HTTP_OK);
     }
     /**
      * @Rest\Get(path="/{id}", name="Productshow_api")

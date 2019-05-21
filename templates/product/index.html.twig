@@ -19,7 +19,7 @@
         {% for product in products %}
             <tr>
                 <td>{{ product.id }}</td>
-                <td>{{ product.type }} {{ product.name }}</td>
+                <td>{{ product.type }} {{ product.name }} {{ product.type.id }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.composition }}</td>
                 <td>

@@ -1,6 +1,7 @@
 <?php
 namespace App\ApiController;
 use App\Entity\Assoc;
+use App\Entity\Product;
 use App\Repository\AllergenRepository;
 use App\Repository\AssocRepository;
 use App\Repository\ProductRepository;
@@ -47,18 +48,25 @@ class AssocController extends AbstractFOSRestController
      * @Rest\View()
      * @return View;
      */
-    public  function create(Request $request, AllergenRepository $allergenRepository): View
+    public  function create(Request $request, Product $product, AllergenRepository $allergenRepository, TypeRepository $typeRepository): View
     {
         $em = $this->getDoctrine()->getManager();
-        $assoc = new Assoc();
-        $assoc->setProduct($request->get('product'));
-
+        $product = new Product();
+        $product->setName($request->get('name'));
+        $product->setDescription($request->get('description'));
+        $product->setComposition($request->get('composition'));
+        $type = $typeRepository->find($request->get('type'));
+        $product->setType($type);
         $allergenId =$request->get('allergen');
         foreach ($allergenId as $allergen){
             $aller = $allergenRepository->find($allergen);
-            $assoc->addAllergen($aller);
+            $product->addAllergen($aller);
             $em->persist($aller);
         }
+        $em ->persist($product);
+        $assoc = new Assoc();
+        $assoc->setProduct($request->get('product'));
+
         $em ->persist($assoc);
         $em->flush();
         return View::create($assoc, Response::HTTP_CREATED);

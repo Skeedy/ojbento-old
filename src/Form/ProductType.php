@@ -37,36 +37,7 @@ class ProductType extends AbstractType
             'data_class' => Product::class,
         ]);
     }
-}
 
-class ApiProductType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('type', EntityType::class,[
-                'class' => Type::class,
-                'expanded' => true,
-                'multiple' => false,
-            ])
-            ->add('name')
-            ->add('description')
-            ->add('composition')
-            ->add('allergen', EntityType::class,[
-                'class'=> Allergen::class,
-                'expanded'=> true,
-                'multiple'=> true
-            ])
-        ;
-    }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => ApiProductType::class
-        ]);
-    }
+
 }

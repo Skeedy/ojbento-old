@@ -55,6 +55,8 @@ class Assoc
      */
     private $image;
 
+    private $type;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -172,6 +174,10 @@ class Assoc
 
         return $this;
     }
-    
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
 
 }

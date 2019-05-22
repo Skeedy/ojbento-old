@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypePrice index{% endblock %}
+
+{% block body %}
+    <h1>TypePrice index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_price in type_prices %}
+            <tr>
+                <td>{{ type_price.id }}</td>
+                <td>{{ type_price.name }}</td>
+                <td>
+                    <a href="{{ path('type_price_show', {'id': type_price.id}) }}">show</a>
+                    <a href="{{ path('type_price_edit', {'id': type_price.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_price_new') }}">Create new</a>
+{% endblock %}

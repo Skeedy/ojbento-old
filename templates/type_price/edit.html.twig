@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypePrice{% endblock %}
+
+{% block body %}
+    <h1>Edit TypePrice</h1>
+
+    {{ include('type_price/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('type_price_index') }}">back to list</a>
+
+    {{ include('type_price/_delete_form.html.twig') }}
+{% endblock %}

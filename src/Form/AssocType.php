@@ -27,7 +27,7 @@ class AssocType extends AbstractType
                 "class" => Type::class
             ])
             ->add('quantity')
-            ->add('allergen', EntityType::class, array(
+            ->add('allergens', EntityType::class, array(
                 "class" => Allergen::class,
                 "multiple" => true,
                 "expanded" => true

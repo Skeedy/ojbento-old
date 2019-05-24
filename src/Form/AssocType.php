@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Allergen;
 use App\Entity\Assoc;
 use App\Entity\Image;
 use App\Form\PriceassocType;
 use App\Entity\Product;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,6 +27,11 @@ class AssocType extends AbstractType
                 "class" => Type::class
             ])
             ->add('quantity')
+            ->add('allergen', EntityType::class, array(
+                "class" => Allergen::class,
+                "multiple" => true,
+                "expanded" => true
+            ))
             ->add('image', ImageType::class)
             ->add('isDish')
             ->add('description')

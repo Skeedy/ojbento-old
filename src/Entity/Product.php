@@ -23,11 +23,6 @@ class Product
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Assoc", mappedBy="product")
-     */
-    private $assocs;
-
     public function __construct()
     {
         $this->assocs = new ArrayCollection();
@@ -48,14 +43,6 @@ class Product
         $this->name = $name;
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Assoc[]
-     */
-    public function getAssocs(): Collection
-    {
-        return $this->assocs;
     }
 
     public function addAssoc(Assoc $assoc): self

@@ -1,5 +1,10 @@
 <?php
 namespace App\Entity;
+
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 /**
@@ -15,6 +20,14 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Command", mappedBy="user", orphanRemoval=true)
+     */
+    private $commands;
+
+
     /**
      * @ORM\Column(type="string")
      */
@@ -39,11 +52,21 @@ class User extends BaseUser
      * @ORM\Column(type="datetime")
      */
     protected $updated_at;
+
     public function __construct()
     {
         $this->created_at = new \DateTime('now');
         $this->updated_at = new \DateTime('now');
         parent::__construct();
+        $this->commands = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Command[]
+     */
+    public function getCommands(): Collection
+    {
+        return $this->commands;
     }
     public function getId(): ?int
     {
@@ -86,6 +109,30 @@ class User extends BaseUser
         return $this;
     }
 
+
+    public function addCommand(Command $command): self
+    {
+        if (!$this->commands->contains($command)) {
+            $this->commands[] = $command;
+            $command->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommand(Command $command): self
+    {
+        if ($this->commands->contains($command)) {
+            $this->commands->removeElement($command);
+            // set the owning side to null (unless already changed)
+            if ($command->getUser() === $this) {
+                $command->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -110,3 +157,4 @@ class User extends BaseUser
         return $this;
     }
 }
+

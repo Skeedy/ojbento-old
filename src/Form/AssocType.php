@@ -4,8 +4,9 @@ namespace App\Form;
 
 use App\Entity\Allergen;
 use App\Entity\Assoc;
+use App\Form\AllergenType;
 use App\Entity\Image;
-use App\Form\PriceassocType;
+use App\Entity\Allergen;
 use App\Entity\Product;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -46,6 +47,11 @@ class AssocType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false
+            ])
+            ->add('allergens', EntityType::class,[
+                'class'=> Allergen::class,
+                'expanded'=> true,
+                'multiple'=> true
             ])
 
 

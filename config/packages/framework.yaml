@@ -1,4 +1,6 @@
 framework:
+    profiler:
+        collect: false
     secret: '%env(APP_SECRET)%'
     serializer : {enabled: true}
     default_locale: fr

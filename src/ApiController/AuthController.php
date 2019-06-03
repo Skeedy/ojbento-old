@@ -5,6 +5,7 @@ namespace App\ApiController;
 
 use App\Entity\User;
 use App\Event\UserRegisterEvent;
+use App\Repository\CommandRepository;
 use App\Repository\UserRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -32,18 +33,19 @@ class AuthController extends AbstractFOSRestController
     /**
      * Retrieves a collection of command resource
      * @Rest\Get(
-     *     path = "/command/{id}",
-     *     name="user_command_api",
+     *     path = "/{id}/commands",
+     *     name="user_commands_api",
      * )
      * @Rest\View()
      */
-    public function indexCommand(UserManagerInterface $userManager, User $user){
+    public function indexCommand(UserManagerInterface $userManager, User $user, CommandRepository $commandRepository){
 
+        $commands = $commandRepository->findBy(array('user'=>$user));
         $serializer = new Serializer([new ObjectNormalizer()]);
 
-            $d = $serializer->normalize($user, null,
+            $d = $serializer->normalize($commands, null,
                 ['attributes' => [
-                    'commands' => [
+
                         'id',
                         'commandassocs'=> [ 'id',
                             'quantity',
@@ -81,7 +83,7 @@ class AuthController extends AbstractFOSRestController
                                     'quantity'
                                 ]
                             ]]
-                    ]
+
 
                 ]]);
 

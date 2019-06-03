@@ -5,14 +5,18 @@ namespace App\ApiController;
 
 use App\Entity\User;
 use App\Event\UserRegisterEvent;
+use App\Repository\UserRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\View;
+use FOS\UserBundle\Doctrine\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Tests\Request\ParamConverter\TestUserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Rest\Route("/auth", host="api.ojbento.fr")
@@ -24,6 +28,66 @@ class AuthController extends AbstractFOSRestController
     {
         $this->dispatcher = $dispatcher;
     }
+
+    /**
+     * Retrieves a collection of command resource
+     * @Rest\Get(
+     *     path = "/command/{id}",
+     *     name="user_command_api",
+     * )
+     * @Rest\View()
+     */
+    public function indexCommand(UserManagerInterface $userManager, User $user){
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+
+            $d = $serializer->normalize($user, null,
+                ['attributes' => [
+                    'commands' => [
+                        'id',
+                        'commandassocs'=> [ 'id',
+                            'quantity',
+                            'assoc' => [
+                                'id',
+                                'quantity',
+                                'type' => ['name'],
+                                'isDish',
+                                'description',
+                                'composition',
+                                'product' => [
+                                    'id',
+                                    'name'],
+                                'prices'=>[
+                                    'id',
+                                    'value',
+                                    'type'=>[
+                                        'id',
+                                        'name']]
+                            ]],
+                        'commandmenus' => ['id',
+                            'quantity',
+                            'menu' => [
+                                'id',
+                                'name',
+                                'isMidi',
+                                'assocs'=> [
+                                    'type' => ['name'],
+                                    'isDish',
+                                    'description',
+                                    'composition',
+                                    'product' => [
+                                        'id',
+                                        'name'],
+                                    'quantity'
+                                ]
+                            ]]
+                    ]
+
+                ]]);
+
+        return View::create($d, Response::HTTP_OK);
+    }
+
     /**
      * @Rest\Post(
      *     path="/register",

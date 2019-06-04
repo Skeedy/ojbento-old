@@ -1,5 +1,7 @@
 <?php
+
 namespace App\ApiController;
+
 use App\Entity\Assoc;
 use App\Repository\AssocRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;

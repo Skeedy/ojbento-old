@@ -55,7 +55,10 @@ class TypeController extends AbstractFOSRestController
                             'name'],
                         'prices' => [
                             'id',
-                            'value'
+                            'value',
+                            'type'=> [
+                                'name'
+                            ]
                         ]
                     ]
                 ]]);

@@ -65,3 +65,4 @@ security:
         - { path: ^/, role: ROLE_ADMIN , host: admin\.ojbento\.fr }
         - { path: ^/auth/register, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: api\.ojbento\.fr }
         - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: api\.ojbento\.fr }

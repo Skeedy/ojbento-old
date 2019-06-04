@@ -31,66 +31,6 @@ class AuthController extends AbstractFOSRestController
     }
 
     /**
-     * Retrieves a collection of command resource
-     * @Rest\Get(
-     *     path = "/{id}/commands",
-     *     name="user_commands_api",
-     * )
-     * @Rest\View()
-     */
-    public function indexCommand(UserManagerInterface $userManager, User $user, CommandRepository $commandRepository){
-
-        $commands = $commandRepository->findBy(array('user'=>$user));
-        $serializer = new Serializer([new ObjectNormalizer()]);
-
-            $d = $serializer->normalize($commands, null,
-                ['attributes' => [
-
-                        'id',
-                        'commandassocs'=> [ 'id',
-                            'quantity',
-                            'assoc' => [
-                                'id',
-                                'quantity',
-                                'type' => ['name'],
-                                'isDish',
-                                'description',
-                                'composition',
-                                'product' => [
-                                    'id',
-                                    'name'],
-                                'prices'=>[
-                                    'id',
-                                    'value',
-                                    'type'=>[
-                                        'id',
-                                        'name']]
-                            ]],
-                        'commandmenus' => ['id',
-                            'quantity',
-                            'menu' => [
-                                'id',
-                                'name',
-                                'isMidi',
-                                'assocs'=> [
-                                    'type' => ['name'],
-                                    'isDish',
-                                    'description',
-                                    'composition',
-                                    'product' => [
-                                        'id',
-                                        'name'],
-                                    'quantity'
-                                ]
-                            ]]
-
-
-                ]]);
-
-        return View::create($d, Response::HTTP_OK);
-    }
-
-    /**
      * @Rest\Post(
      *     path="/register",
      *     name="auth_register_api"

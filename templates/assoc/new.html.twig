@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Assoc{% endblock %}
+{% block title %}New Assoc{% endblock %}
 
 {% block body %}
     <h1 class="text-center m-5">Créer une association</h1>
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="container d-flex">
-        <button class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2">Sauvegarder</button>
+        <button id="save" class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2">Sauvegarder</button>
         <a class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2" href="{{ path('assoc_index') }}">Revenir à la liste</a>
     {{ form_end(form) }}
     </div>
@@ -33,9 +33,27 @@
 {% block javascripts %}
     <script src ="{{ (asset('asset/js/assoc.js')) }}" type="text/javascript"></script>
     <script>
+        var hiddenField = [];
+        var type = document.getElementById('assoc_type');
+        type.onchange = function() {
+            hiddenField[0] ='';
+            var typeAlt = type.options[type.selectedIndex].text;
+            hiddenField[0] = typeAlt;
+        };
+
+        var product = document.getElementById('assoc_product');
+        product.onchange = function() {
+            hiddenField[1] ='';
+            var productAlt = product.options[product.selectedIndex].text;
+            hiddenField[1] = productAlt;
+        };
+        $('#save').on('mouseover', function () {
+            document.getElementById('assoc_image_alt').value = hiddenField.join(' ');
+        });
         $(document).ready(function(){
             $('#assoc_forMenu').val('0');
             addPriceFrom($('#assoc_prices'), $newPrice);
-        })
+
+            })
     </script>
 {% endblock %}

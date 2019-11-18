@@ -4,30 +4,53 @@
 
 {% block body %}
 
-<div class="card">
-  <h1 class="card-header text-center font-weight-bold text-uppercase py-4">Types</h1>
-  <div class="card-body">
-    <div id="table" class="table-editable">
+    <div class="card">
+        <h1 class="card-header text-center font-weight-bold text-uppercase py-4">Types</h1>
+        <div class="card-body">
+            <div id="table" class="table-editable">
       <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
-            class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
-      <table class="table table-bordered table-responsive-md table-striped text-center">
-      <tbody>
-           <tr>
-                <th>Id</th>
-                <td>{{ type.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ type.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="d-flex">
+                      class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+                <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ type.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ type.name }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex">
 
-        <a class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2" href="{{ path('type_index') }}">Revenir à la liste</a>
+                    <a class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2" href="{{ path('type_index') }}">Revenir à la liste</a>
 
-        <a class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2" href="{{ path('type_edit', {'id': type.id}) }}">Editer</a>
+                    <a class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2" href="{{ path('type_edit', {'id': type.id}) }}">Editer</a>
 
-        <a style="color: white;" class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2">{{ include('type/_delete_form.html.twig') }}</a>
+                    <a style="color: white;" class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2">{{ include('type/_delete_form.html.twig') }}</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
+{#{%  block Javascript %}#}
+{#    <script>#}
+{#        $(function() {#}
+{#            $('body #annonceslist').on('click', '.btn_ch_position', function () {#}
+{#                var $btn = $(this);#}
+{#                $.ajax({#}
+{#                    type: "POST",#}
+{#                    url: $btn.data('url'),#}
+{#                    dataType: 'json',#}
+{#                    data: {ch_position: $btn.data('direction'), id: $btn.data('id')}#}
+{#                }).done(function (data) {#}
+{#                    if (data.hasOwnProperty('error'))#}
+{#                        alert(data.error);#}
+{#                    if (data.hasOwnProperty('html'))#}
+{#                        $('#annonceslist tbody').html(data.html);#}
+{#                });#}
+{#            });#}
+{#        })#}
+{#            </script>#}
+{#{%  endblock %}#}

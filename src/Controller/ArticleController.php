@@ -2,45 +2,43 @@
 
 namespace App\Controller;
 
-use App\Entity\Assoc;
-use App\Entity\Type;
-use App\Form\AssocType;
-use App\Repository\AssocRepository;
-use App\Repository\TypeRepository;
+use App\Entity\Article;
+use App\Form\ArticleType;
+use App\Repository\ArticleRepository;
+use Cassandra\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/assoc", host="admin.ojbento.fr")
+ * @Route("/article")
  */
-class AssocController extends AbstractController
+class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="assoc_index", methods={"GET"})
+     * @Route("/", name="article_index", methods={"GET"})
      */
-    public function index(TypeRepository $typeRepository): Response
+    public function index(ArticleRepository $articleRepository): Response
     {
-        return $this->render('assoc/index.html.twig', [
-            'types' => $typeRepository->findAll(),
+        return $this->render('article/index.html.twig', [
+            'articles' => $articleRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="assoc_new", methods={"GET","POST"})
+     * @Route("/new", name="article_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
-        $assoc = new Assoc();
-        $form = $this->createForm(AssocType::class, $assoc);
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-
             $entityManager = $this->getDoctrine()->getManager();
-            $image = $assoc->getImage();
+            $image = $article->getImage();
             $file = $form->get('image')->get('file')->getData();
 
             if ($file){
@@ -57,42 +55,41 @@ class AssocController extends AbstractController
                 $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
                 $entityManager->persist($image);
             }else{
-                $assoc->setImage(null);
+                $article->setImage(null);
             }
 
-            $entityManager->persist($assoc);
+            $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('assoc_index');
+            return $this->redirectToRoute('article_index');
         }
 
-        return $this->render('assoc/new.html.twig', [
-            'assoc' => $assoc,
+        return $this->render('article/new.html.twig', [
+            'article' => $article,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="assoc_show", methods={"GET"})
+     * @Route("/{id}", name="article_show", methods={"GET"})
      */
-    public function show(Assoc $assoc): Response
+    public function show(Article $article): Response
     {
-        return $this->render('assoc/show.html.twig', [
-            'assoc' => $assoc,
+        return $this->render('article/show.html.twig', [
+            'article' => $article,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="assoc_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Assoc $assoc): Response
+    public function edit(Request $request, Article $article): Response
     {
-        $form = $this->createForm(AssocType::class, $assoc);
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $image = $assoc->getImage();
+        if ($form->isSubmitted() && $form->isValid()) {$entityManager = $this->getDoctrine()->getManager();
+            $image = $article->getImage();
             $file = $form->get('image')->get('file')->getData();
 
             if ($file){
@@ -111,38 +108,38 @@ class AssocController extends AbstractController
                 $entityManager->persist($image);
             }
             if ($image && empty($image->getId()) && !$file ){
-                $assoc->setImage(null);
+                $article->setImage(null);
             }
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('assoc_index', [
-                'id' => $assoc->getId(),
+            return $this->redirectToRoute('article_index', [
+                'id' => $article->getId(),
             ]);
         }
 
-        return $this->render('assoc/edit.html.twig', [
-            'assoc' => $assoc,
+        return $this->render('article/edit.html.twig', [
+            'article' => $article,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="assoc_delete", methods={"DELETE"})
+     * @Route("/{id}", name="article_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Assoc $assoc): Response
+    public function delete(Request $request, Article $article): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$assoc->getId(), $request->request->get('_token'))) {
-            $image = $assoc->getImage();
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $image = $article->getImage();
             if($image) {
                 $this->removeFile($image->getPath());
             }
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($assoc);
+            $entityManager->remove($article);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('assoc_index');
+        return $this->redirectToRoute('article_index');
     }
 
     /**

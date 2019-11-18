@@ -14,6 +14,7 @@ $addItemButton.on('click',function(e){
 });
 
 
+// $('#assoc_image_alt')
 
 function addPriceFormDelete(arg){
     var $removeFormButton = $('<button class="btn btn-danger mt-3 mb-3" type="button">Supprimer le prix</button>');
@@ -36,7 +37,3 @@ function addPriceFrom($collectionHolder, $newItemLi) {
     }
 
 }
-
-
-
-

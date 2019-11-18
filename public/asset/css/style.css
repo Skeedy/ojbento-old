@@ -203,7 +203,14 @@ button {
         transform: translateX(0);
     }
 }
-
+li {
+    list-style: none;
+}
+.type-collapse{
+    border: none;
+    background: none;
+    color: red;
+}
 /** Table **/
 
 .pt-3-half {

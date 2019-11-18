@@ -4,38 +4,44 @@
 
 {% block body %}
 
-<div class="card">
-  <h1 class="card-header text-center font-weight-bold text-uppercase py-4">Associations</h1>
-  <div class="card-body">
-    <div id="table" class="table-editable">
-      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
-            class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+<ul id="sortable">
+{%  for type in types %}
+  <li >
+  <div class="accordion" id="accordionExample">
+  <div class="card">
+  <div class="card-header" id="heading-{{type.name}}">
+    <h2 class="mb-0">
+      <button class="type-collapse" type="button" data-toggle="collapse" data-target="#collapse-{{type.id}}" aria-expanded="true" aria-controls="collapse-{{type.id}}">
+        {{ type.name }}
+      </button>
+    </h2>
+
+  </div>
+    <div id="collapse-{{type.id}}" class="collapse hidden" aria-labelledby="heading-{{type.id}}" data-parent="#accordionExample">
+      <div class="card-body">
+
       <table class="table table-bordered table-responsive-md table-striped text-center">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Quantité</th>
             <th>Produits</th>
             <th>Images</th>
             <th>Prix</th>
             <th>Description</th>
             <th>Composition</th>
-            <th>Menu ?</th>
             <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for assoc in assocs %}
+        {% for assoc in type.assocs %}
             {%  if assoc.forMenu != true%}
           <tr>
-            <td class="pt-3-half" contenteditable="true">{{ assoc.id }}</td>
             <td class="pt-3-half" contenteditable="true">{{ assoc.quantity }}</td>
             <td class="pt-3-half" contenteditable="true">{{ assoc.type }} {{ assoc.product }}</td>
-            <td class="pt-3-half" contenteditable="true">{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" width="200px" /> {% endif %}</td>
+            <td class="pt-3-half" contenteditable="true">{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" width="100px" height="100px" /> {% endif %}</td>
             <td class="pt-3-half" contenteditable="true">{% for price in assoc.prices %} <div>{{ price.type }} {{ price }}€ </div>{%  endfor %}</td>
             <td class="pt-3-half" contenteditable="true">{{ assoc.description }}</td>
             <td class="pt-3-half" contenteditable="true">{{ assoc.composition }}</td>
-            <td class="pt-3-half" contenteditable="true">{{ assoc.forMenu ? 'true' : 'false' }}</td>
             <td class="d-flex">
               <span class="table-remove mr-2">
                <a href="{{ path('assoc_edit', {'id': assoc.id}) }}"
@@ -50,11 +56,38 @@
             </td>
           </tr>
           {% endif %}
-        {% else %} 
+        {% else %}
         {% endfor %}
         </tbody>
     </table>
+      </div>
+    </div>
+  </div>
+  </div>
+  </li>
+{% endfor %}
+</ul>
     <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('assoc_new') }}">Créer une association</a>
+{% endblock %}
+{% block javascripts %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $( function() {
+      $( "#sortable" ).sortable({
+        onDrop: function($item, container, _super, event) {
+          $('#sortable li').removeClass('dragged');
+          $('#sortable li').removeAttr('style');
+          $("body").removeClass('dragging');
+          $('#sortable span').each(function (i) {
+            var humanNum = i + 1;
+            $(this).html(humanNum + '');
+          });
+        }
+      });
+
+      $( "#sortable" ).disableSelection();
+    });
+  </script>
 {% endblock %}
 
 

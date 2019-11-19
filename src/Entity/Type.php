@@ -22,6 +22,11 @@ class Type
      * @ORM\OneToMany(targetEntity="App\Entity\Assoc", mappedBy="type")
      */
     private $assocs;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $value;
     public function __construct()
     {
         $this->assocs = new ArrayCollection();
@@ -69,4 +74,17 @@ class Type
     {
         return $this->getName();
     }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
 }

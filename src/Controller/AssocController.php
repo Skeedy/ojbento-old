@@ -3,11 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Assoc;
+use App\Entity\Command;
+use App\Entity\State;
 use App\Entity\Type;
+use App\Event\StateCommandEvent;
 use App\Form\AssocType;
+use App\Form\CommandType;
 use App\Repository\AssocRepository;
+use App\Repository\StateRepository;
 use App\Repository\TypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +29,7 @@ class AssocController extends AbstractController
     public function index(TypeRepository $typeRepository): Response
     {
         return $this->render('assoc/index.html.twig', [
-            'types' => $typeRepository->findAll(),
+                'types' => $typeRepository->findBy(array(), array('value'=>'asc')),
         ]);
     }
 
@@ -156,4 +162,5 @@ class AssocController extends AbstractController
             unlink($path);
         }
     }
+
 }

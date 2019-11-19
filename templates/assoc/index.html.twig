@@ -4,89 +4,106 @@
 
 {% block body %}
 
-<ul id="sortable">
-{%  for type in types %}
-  <li >
-  <div class="accordion" id="accordionExample">
-  <div class="card">
-  <div class="card-header" id="heading-{{type.name}}">
-    <h2 class="mb-0">
-      <button class="type-collapse" type="button" data-toggle="collapse" data-target="#collapse-{{type.id}}" aria-expanded="true" aria-controls="collapse-{{type.id}}">
-        {{ type.name }}
-      </button>
-    </h2>
+  <ul id="sortable">
+    {%  for type in types %}
+      <li class="type-list" data-id="{{ type.id }}" data-order="{{type.value}}">
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="heading-{{type.id}}">
 
-  </div>
-    <div id="collapse-{{type.id}}" class="collapse hidden" aria-labelledby="heading-{{type.id}}" data-parent="#accordionExample">
-      <div class="card-body">
+              <h2 class="mb-0">
+                <span class="span-order">{{ type.value }}</span>
+                <button class="type-collapse" type="button" data-toggle="collapse" data-target="#collapse-{{type.id}}" aria-expanded="true" aria-controls="collapse-{{type.id}}">
+                  {{ type.name }}
+                </button>
+              </h2>
 
-      <table class="table table-bordered table-responsive-md table-striped text-center">
-        <thead>
-          <tr>
-            <th>Quantité</th>
-            <th>Produits</th>
-            <th>Images</th>
-            <th>Prix</th>
-            <th>Description</th>
-            <th>Composition</th>
-            <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for assoc in type.assocs %}
-            {%  if assoc.forMenu != true%}
-          <tr>
-            <td class="pt-3-half" contenteditable="true">{{ assoc.quantity }}</td>
-            <td class="pt-3-half" contenteditable="true">{{ assoc.type }} {{ assoc.product }}</td>
-            <td class="pt-3-half" contenteditable="true">{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" width="100px" height="100px" /> {% endif %}</td>
-            <td class="pt-3-half" contenteditable="true">{% for price in assoc.prices %} <div>{{ price.type }} {{ price }}€ </div>{%  endfor %}</td>
-            <td class="pt-3-half" contenteditable="true">{{ assoc.description }}</td>
-            <td class="pt-3-half" contenteditable="true">{{ assoc.composition }}</td>
-            <td class="d-flex">
+            </div>
+            <div id="collapse-{{type.id}}" class="collapse hidden" aria-labelledby="heading-{{type.id}}" data-parent="#accordionExample">
+              <div class="card-body">
+
+                <table class="table table-bordered table-responsive-md table-striped text-center">
+                  <thead>
+                  <tr>
+                    <th>Quantité</th>
+                    <th>Produits</th>
+                    <th>Images</th>
+                    <th>Prix</th>
+                    <th>Description</th>
+                    <th>Composition</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for assoc in type.assocs %}
+                    {%  if assoc.forMenu != true%}
+                      <tr>
+                        <td class="pt-3-half" contenteditable="true">{{ assoc.quantity }}</td>
+                        <td class="pt-3-half" contenteditable="true">{{ assoc.type }} {{ assoc.product }}</td>
+                        <td class="pt-3-half" contenteditable="true">{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" width="100px" height="100px" /> {% endif %}</td>
+                        <td class="pt-3-half" contenteditable="true">{% for price in assoc.prices %} <div>{{ price.type }} {{ price }}€ </div>{%  endfor %}</td>
+                        <td class="pt-3-half" contenteditable="true">{{ assoc.description }}</td>
+                        <td class="pt-3-half" contenteditable="true">{{ assoc.composition }}</td>
+                        <td class="d-flex">
               <span class="table-remove mr-2">
                <a href="{{ path('assoc_edit', {'id': assoc.id}) }}"
                   class="btn btn-danger btn-rounded btn-sm my-0">Editer
                 </a>
               </span>
-              <span class="table-remove">
+                          <span class="table-remove">
                <a href="{{ path('assoc_show', {'id': assoc.id}) }}"
                   class="btn btn-danger btn-rounded btn-sm my-0">Afficher
                 </a>
               </span>
-            </td>
-          </tr>
-          {% endif %}
-        {% else %}
-        {% endfor %}
-        </tbody>
-    </table>
-      </div>
-    </div>
-  </div>
-  </div>
-  </li>
-{% endfor %}
-</ul>
-    <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('assoc_new') }}">Créer une association</a>
+                        </td>
+                      </tr>
+                    {% endif %}
+                  {% else %}
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('assoc_new') }}">Créer une association</a>
+  <button id="save-order" class="btn btn-success">Enregistrer l'ordre</button>
 {% endblock %}
 {% block javascripts %}
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
     $( function() {
-      $( "#sortable" ).sortable({
-        onDrop: function($item, container, _super, event) {
-          $('#sortable li').removeClass('dragged');
-          $('#sortable li').removeAttr('style');
-          $("body").removeClass('dragging');
-          $('#sortable span').each(function (i) {
+      $("#sortable").sortable({
+        update: function (event, ui) {
+          $('.type-list').each(function (i) {
             var humanNum = i + 1;
-            $(this).html(humanNum + '');
+            $(this).attr('data-order', humanNum);
           });
         }
       });
-
-      $( "#sortable" ).disableSelection();
-    });
+      $("#sortable").disableSelection();
+      $("#save-order").on('click', function () {
+        let orderArray = [];
+        $(".type-list").each(function (i) {
+          let typeOrder = {};
+          typeOrder.id = this.getAttribute('data-id');
+          typeOrder.order = this.getAttribute('data-order');
+          orderArray.push(typeOrder)
+        });
+        console.log(orderArray);
+        $.ajax({
+                  url: 'http://admin.ojbento.fr/type/patch',
+                  type: "PATCH",
+                  data: {
+                    orderArray: orderArray,
+                  }
+                }
+        )
+      });
+    })
   </script>
 {% endblock %}
 

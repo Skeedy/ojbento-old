@@ -34,7 +34,7 @@ class TypeController extends AbstractFOSRestController
     public function index(TypeRepository $typeRepository): View
     {
 
-        $results = $typeRepository->findAll();
+        $results = $typeRepository->findBy(array(), array('value'=>'asc'));
         // In case our GET was a success we need to return a 200 HTTP OK
         // response with the collection of task object
 
@@ -79,7 +79,7 @@ class TypeController extends AbstractFOSRestController
      */
     public function indexAssocs(TypeRepository $typeRepository): View
     {
-        $results = $typeRepository->findAll();
+        $results = $typeRepository->findBy(array(), array('value'=>'asc'));
         // In case our GET was a success we need to return a 200 HTTP OK
         // response with the collection of task object
 

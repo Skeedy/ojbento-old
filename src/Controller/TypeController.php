@@ -6,6 +6,7 @@ use App\Entity\Type;
 use App\Form\TypeType;
 use App\Repository\TypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ class TypeController extends AbstractController
     /**
      * @Route("/new", name="type_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TypeRepository $typeRepository): Response
     {
         $type = new Type();
         $form = $this->createForm(TypeType::class, $type);
@@ -36,6 +37,8 @@ class TypeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $typelength = count($typeRepository->findAll()) +1;
+            $type->setValue($typelength);
             $entityManager->persist($type);
             $entityManager->flush();
 
@@ -93,4 +96,25 @@ class TypeController extends AbstractController
 
         return $this->redirectToRoute('type_index');
     }
+    /**
+     * @Route("/patch", name="type_patch", methods={"PATCH"})
+     */
+
+    public function patchTypeValue(Request $request, TypeRepository $typeRepository): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rows = $request->get('orderArray');
+        foreach ($rows as $row){
+            $typeId = $row['id'];
+            $typeNewOrder = $row['order'];
+            $type = $typeRepository->find($typeId);
+            $type->setValue($typeNewOrder);
+            $em->persist($type);
+            $em->flush();
+        }
+
+        return new JsonResponse(['status' => 'success'], 202);
+
+        }
+
 }

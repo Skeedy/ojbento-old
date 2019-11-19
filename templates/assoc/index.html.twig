@@ -70,7 +70,6 @@
     {% endfor %}
   </ul>
   <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('assoc_new') }}">Créer une association</a>
-  <button id="save-order" class="btn btn-success">Enregistrer l'ordre</button>
 {% endblock %}
 {% block javascripts %}
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -81,28 +80,26 @@
           $('.type-list').each(function (i) {
             var humanNum = i + 1;
             $(this).attr('data-order', humanNum);
+            let orderArray = [];
+            $(".type-list").each(function (i) {
+              let typeOrder = {};
+              typeOrder.id = this.getAttribute('data-id');
+              typeOrder.order = this.getAttribute('data-order');
+              orderArray.push(typeOrder)
+            });
+            $.ajax({
+                      url: 'http://admin.ojbento.fr/type/patch',
+                      type: "PATCH",
+                      data: {
+                        orderArray: orderArray,
+                      }
+                    }
+            )
           });
         }
       });
       $("#sortable").disableSelection();
-      $("#save-order").on('click', function () {
-        let orderArray = [];
-        $(".type-list").each(function (i) {
-          let typeOrder = {};
-          typeOrder.id = this.getAttribute('data-id');
-          typeOrder.order = this.getAttribute('data-order');
-          orderArray.push(typeOrder)
-        });
-        console.log(orderArray);
-        $.ajax({
-                  url: 'http://admin.ojbento.fr/type/patch',
-                  type: "PATCH",
-                  data: {
-                    orderArray: orderArray,
-                  }
-                }
-        )
-      });
+
     })
   </script>
 {% endblock %}

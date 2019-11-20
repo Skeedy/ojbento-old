@@ -4,49 +4,117 @@
 
 {% block body %}
 
-<div class="card">
-  <h1 class="card-header text-center font-weight-bold text-uppercase py-4">Menus</h1>
-  <div class="card-body">
-    <div id="table" class="table-editable">
-      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
-            class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
-      <table class="table table-bordered table-responsive-md table-striped text-center">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Products</th>
-                <th>Price</th>
-                <th>IsMidi</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for menu in menus %}
-            <tr>
-                <td>{{ menu.id }}</td>
-                <td>{{ menu.name }}</td>
-                <td>{% if menu.assocs %}
-                       {% for assoc in menu.assocs %}
-                            <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>
-                        {% endfor %}
-                    {% endif %}
-                </td>
-                <td>{% for price in menu.prices %} <div> {{ price.value }}€ {{ price.type }}</div>{% endfor %}</td>
-                <td>{{ menu.isMidi ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_show', {'id': menu.id}) }}">show</a>
-                    <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_edit', {'id': menu.id}) }}">edit</a>
-                </td>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('menu_new') }}">Create new</a>
-{% endblock %}
+    <div class="card">
+        <h1 class="card-header text-center font-weight-bold text-uppercase py-4">Menus</h1>
+        <div class="card-body">
+            <div id="table" class="table-editable">
+                <h1>Menu normal</h1>
+                <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Products</th>
+                        <th>Price</th>
+                        <th>IsMidi</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="sortable">
+                    {% for menu in menus %}
+                    {%  if menu.isMidi != true %}
+                    <tr class="type-list" data-id="{{ menu.id }}" data-order="{{menu.value}}">
+                        <td>{{ menu.id }}</td>
+                        <td>{{ menu.name }}</td>
+                        <td>{% if menu.assocs %}
+                                {% for assoc in menu.assocs %}
+                                    <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>{% for price in menu.prices %} <div> {{ price.value }}€ {{ price.type }}</div>{% endfor %}</td>
+                        <td>{{ menu.isMidi ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_show', {'id': menu.id}) }}">show</a>
+                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_edit', {'id': menu.id}) }}">edit</a>
+                        </td>
+                        </td>
+                    </tr>
+                    {%  endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <h1>Menu du midi</h1>
+                <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Products</th>
+                        <th>Price</th>
+                        <th>IsMidi</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="sortable">
+                    {% for menu in menus %}
+                        {%  if menu.isMidi %}
+                    <tr class="type-list" data-id="{{ menu.id }}" data-order="{{menu.value}}">
+                        <td>{{ menu.id }}</td>
+                        <td>{{ menu.name }}</td>
+                        <td>{% if menu.assocs %}
+                                {% for assoc in menu.assocs %}
+                                    <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>{% for price in menu.prices %} <div> {{ price.value }}€ {{ price.type }}</div>{% endfor %}</td>
+                        <td>{{ menu.isMidi ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_show', {'id': menu.id}) }}">show</a>
+                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_edit', {'id': menu.id}) }}">edit</a>
+                        </td>
+                        </td>
+                    </tr>
+                    {%  endif %}
+                    {% endfor %}
 
+                    </tbody>
+                </table>
+                <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('menu_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $(".sortable").sortable({
+                update: function (event, ui) {
+                    let orderArray = [];
+                    $('.type-list').each(function (i) {
+                        var humanNum = i + 1;
+                        $(this).attr('data-order', humanNum);
+                        $(".type-list").each(function (i) {
+                            let typeOrder = {};
+                            typeOrder.id = this.getAttribute('data-id');
+                            typeOrder.order = this.getAttribute('data-order');
+                            orderArray.push(typeOrder)
+                        });
+                    });
+                    $.ajax({
+                            url: 'http://admin.ojbento.fr/menu/patch',
+                            type: "PATCH",
+                            data: {
+                                orderArray: orderArray,
+                            }
+                        }
+                    )
+                }
+            });
+            $("#sortable").disableSelection();
+
+        })
+    </script>
+{% endblock %}

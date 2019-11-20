@@ -22,7 +22,7 @@ class TypeController extends AbstractController
     public function index(TypeRepository $typeRepository): Response
     {
         return $this->render('type/index.html.twig', [
-            'types' => $typeRepository->findAll(),
+            'types' => $typeRepository->findBy(array(), array('value'=>'asc'))
         ]);
     }
 

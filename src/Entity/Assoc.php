@@ -15,7 +15,7 @@ class Assoc
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     */
+     **/
     private $id;
 
     /**
@@ -72,6 +72,11 @@ class Assoc
      * @ORM\Column(type="boolean")
      */
     private $forMenu;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $value;
 
     public function __construct()
     {
@@ -264,6 +269,18 @@ class Assoc
     public function setForMenu(bool $forMenu): self
     {
         $this->forMenu = $forMenu;
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }

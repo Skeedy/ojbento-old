@@ -20,6 +20,7 @@ class Type
     private $name;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Assoc", mappedBy="type")
+     * @ORM\OrderBy({"value" = "ASC"})
      */
     private $assocs;
 

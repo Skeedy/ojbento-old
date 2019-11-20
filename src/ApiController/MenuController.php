@@ -24,7 +24,7 @@ class MenuController extends  AbstractFOSRestController
      **/
     public function index(MenuRepository $menuRepository): View
     {
-        $results = $menuRepository->findAll();
+        $results = $menuRepository->findBy(array(), array('value'=>'asc'));
         // In case our GET was a success we need to return a 200 HTTP OK
         // response with the collection of task object
         $serializer = new Serializer([new ObjectNormalizer()]);

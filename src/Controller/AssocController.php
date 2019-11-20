@@ -36,7 +36,7 @@ class AssocController extends AbstractController
     /**
      * @Route("/new", name="assoc_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, AssocRepository $assocRepository): Response
     {
         $assoc = new Assoc();
         $form = $this->createForm(AssocType::class, $assoc);
@@ -44,7 +44,8 @@ class AssocController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-
+            $assoclength = count($assocRepository->findAll()) +1;
+            $assoc->setValue($assoclength);
             $entityManager = $this->getDoctrine()->getManager();
             $image = $assoc->getImage();
             $file = $form->get('image')->get('file')->getData();
@@ -163,4 +164,24 @@ class AssocController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/patch", name="assoc_patch", methods={"PATCH"})
+     */
+
+    public function patchAssocValue(Request $request, AssocRepository $assocRepository): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rows = $request->get('orderArray');
+        foreach ($rows as $row){
+            $typeId = $row['id'];
+            $typeNewOrder = $row['order'];
+            $assoc = $assocRepository->find($typeId);
+            $assoc->setValue($typeNewOrder);
+            $em->persist($assoc);
+            $em->flush();
+        }
+
+        return new JsonResponse(['status' => 'success'], 202);
+
+    }
 }

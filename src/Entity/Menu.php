@@ -40,6 +40,11 @@ class Menu
      */
     private $assocs;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $value;
+
     
 
     public function __construct()
@@ -139,6 +144,18 @@ class Menu
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
+
+        return $this;
     }
 
 }

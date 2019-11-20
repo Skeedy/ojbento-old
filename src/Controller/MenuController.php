@@ -11,6 +11,7 @@ use App\Repository\MenuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,18 +25,20 @@ class MenuController extends AbstractController
     public function index(MenuRepository $menuRepository): Response
     {
         return $this->render('menu/index.html.twig', [
-            'menus' => $menuRepository->findAll(),
+            'menus' => $menuRepository->findBy(array(), array('value'=>'asc')),
         ]);
     }
 
     /**
      * @Route("/new", name="menu_new", methods={"GET","POST"})
      */
-    public function new(Request $request, AssocRepository $assocRepository): Response
+    public function new(Request $request, MenuRepository $menuRepository): Response
     {
         $menu = new Menu();
         $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
+        $menulength = count($menuRepository->findAll()) +1;
+        $menu->setValue($menulength);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,5 +99,26 @@ class MenuController extends AbstractController
         }
 
         return $this->redirectToRoute('menu_index');
+    }
+
+    /**
+     * @Route("/patch", name="menu_patch", methods={"PATCH"})
+     */
+
+    public function patchMenuValue(Request $request, MenuRepository $menuRepository): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rows = $request->get('orderArray');
+        foreach ($rows as $row){
+            $typeId = $row['id'];
+            $typeNewOrder = $row['order'];
+            $menu = $menuRepository->find($typeId);
+            $menu->setValue($typeNewOrder);
+            $em->persist($menu);
+            $em->flush();
+        }
+
+        return new JsonResponse(['status' => 'success'], 202);
+
     }
 }

@@ -8,7 +8,7 @@
     {{ form_start(form) }}
     <div class="float-right">
         <button class=" btn btn-dark"><a href="{{ path('menu_index') }}">Retour à la liste</a></button>
-    <button class="d-flex justify-content-center align-items-center btn btn-success btn-rounded mr-2">Sauvegarder</button>
+    <button id="save" class="d-flex justify-content-center align-items-center btn btn-success btn-rounded mr-2">Sauvegarder</button>
 
     </div>
     <div class="container">
@@ -16,6 +16,7 @@
             <div class="col-6 m-auto">
                 {{ form_row(form.name) }}
                 {{ form_row(form.isMidi) }}
+                {{ form_row(form.image) }}
             </div>
         </div>
         <div class="row">
@@ -42,6 +43,12 @@
 {% block javascripts %}
     <script src ="{{ (asset('asset/js/menu.js')) }}" type="text/javascript"></script>
     <script>
+       var menuName = document.getElementById('menu_name');
+       var hiddenInput = document.getElementById('menu_image_alt');
+       $('#menu_name').on('blur', function(){
+           hiddenInput.value = menuName.value;
+           console.log(hiddenInput.value);
+       });
         $(document).ready(function(){
             $('#assoc_forMenu').val('0');
             addMenuFrom($('#menu_assocs'), $newAssoc);

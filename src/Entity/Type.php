@@ -28,6 +28,11 @@ class Type
      * @ORM\Column(type="integer")
      */
     private $value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $label;
     public function __construct()
     {
         $this->assocs = new ArrayCollection();
@@ -84,6 +89,18 @@ class Type
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): self
+    {
+        $this->label = $label;
 
         return $this;
     }

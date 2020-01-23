@@ -13,6 +13,7 @@ class TypeType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('label')
         ;
     }
 

@@ -50,6 +50,11 @@ security:
             stateless: true
             anonymous: true
 
+        api.menu:
+            host: api\.ojbento\.fr
+            pattern: ^/menu
+            stateless: true
+            anonymous: true
 
         api:
             host: api\.ojbento\.fr

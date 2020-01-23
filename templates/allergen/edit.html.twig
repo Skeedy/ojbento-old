@@ -12,8 +12,17 @@
 
             {{ include('allergen/_delete_form.html.twig') }}
         </div>
+    </div>
 {% endblock %}
 
-{% block javascript %}
-
+{% block javascripts %}
+    <script>
+        var allergenName = document.getElementById('allergen_name');
+        var hiddenInput = document.getElementById('allergen_image_alt');
+        $('#allergen_name').on('blur', function(){
+            hiddenInput.value = allergenName.value;
+            console.log(hiddenInput.value);
+        });
+    </script>
 {% endblock %}
+

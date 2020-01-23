@@ -30,7 +30,7 @@
     
 
     <div class="container d-flex">
-        <a class=" btn btn-danger btn-rounded mr-2">{{ include('assoc/_form.html.twig', {'button_label': 'Sauvegarder'}) }}</a>
+        <a id="save" class=" btn btn-danger btn-rounded mr-2">{{ include('assoc/_form.html.twig', {'button_label': 'Sauvegarder'}) }}</a>
         <a class="btn btn-danger btn-rounded mr-2">{{ include('assoc/_delete_form.html.twig') }}</a>
         <a class="d-flex justify-content-center align-items-center btn btn-danger btn-rounded mr-2" href="{{ path('assoc_index') }}">Revenir à la liste</a>
     {{ form_end(form) }}
@@ -40,6 +40,27 @@
 {% block javascripts %}
     <script src ="{{ (asset('asset/js/assoc.js')) }}" type="text/javascript"></script>
     <script>
+
+        var type = document.getElementById('assoc_type');
+        var product = document.getElementById('assoc_product');
+        var typeAlt = type.options[type.selectedIndex].text;
+        var productAlt= product.options[product.selectedIndex].text;
+        var hiddenField = [typeAlt, productAlt];
+        type.onchange = function() {
+            hiddenField[0] ='';
+            typeAlt = type.options[type.selectedIndex].text;
+            hiddenField[0] = typeAlt;
+        };
+
+
+        product.onchange = function() {
+            hiddenField[1] ='';
+            productAlt = product.options[product.selectedIndex].text;
+            hiddenField[1] = productAlt;
+        };
+        $('#save').on('mouseover', function () {
+            document.getElementById('assoc_image_alt').value = hiddenField.join(' ');
+        });
         $(document).ready(function(){
             $('#assoc_forMenu').val('0');
             if (!$('.prices')) {

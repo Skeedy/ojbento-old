@@ -37,6 +37,7 @@ class MenuController extends  AbstractFOSRestController
                     'id',
                     'name',
                     'isMidi',
+                    'image' => [ 'id', 'imgpath'],
                     'assocs' => [
                         'id', 'type'=>['id','name'], 'description', 'composition', 'quantity', 'product'=>['id','name']],
                     'prices'=>['id', 'value', 'type'=>['id','name', 'value']]

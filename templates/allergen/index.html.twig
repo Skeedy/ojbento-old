@@ -24,7 +24,7 @@
             <tr>
                 <td>{{ allergen.id }}</td>
                 <td>{{ allergen.name }}</td>
-                <td><img src="{{ asset(allergen.image.imgpath) }}" width="75px" /></td>
+                <td><img src="{{ asset(allergen.image.imgpath) }}" width="75px" alt="{{ allergen.image.alt }}"/></td>
                 <td>
                     <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('allergen_show', {'id': allergen.id}) }}">Affichage</a>
                     <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('allergen_edit', {'id': allergen.id}) }}">Edition</a>

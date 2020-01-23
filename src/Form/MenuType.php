@@ -19,9 +19,15 @@ class MenuType extends AbstractType
             ->add('name', null, [
                 'attr' => array('class' => 'form-control')
             ])
+            ->add('image', ImageType::class, [
+                'required' => false,
+                'attr' => array('class' => 'forMenu'),
+                'label_attr' => array('class' => 'forMenu')
+            ])
             ->add('isMidi', null, [
                 'label' => 'Pour midi ?'
             ])
+
             ->add('assocs',CollectionType::class, [
                 'label' => false,
                 'attr' => array('class' => 'assoc_box'),
@@ -49,6 +55,7 @@ class MenuType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false
             ])
+
         ;
     }
 

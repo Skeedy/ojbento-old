@@ -40,7 +40,7 @@
                                             <tr class="type-list" data-id="{{ assoc.id }}" data-order="{{assoc.value}}">
                                                 <td class="pt-3-half" >{{ assoc.quantity }}</td>
                                                 <td class="pt-3-half" >{{ assoc.type }} {{ assoc.product }}</td>
-                                                <td class="pt-3-half" >{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" width="100px" height="100px" /> {% endif %}</td>
+                                                <td class="pt-3-half" >{% if assoc.image %} <img src="{{ asset(assoc.image.imgpath) }}" alt="{{ assoc.image.alt }}" width="100px" height="100px" /> {% endif %}</td>
                                                 <td class="pt-3-half" >{% for price in assoc.prices %} <div>{{ price.type }} {{ price }}€ </div>{%  endfor %}</td>
                                                 <td class="pt-3-half" >{{ assoc.description }}</td>
                                                 <td class="pt-3-half" >{{ assoc.composition }}</td>

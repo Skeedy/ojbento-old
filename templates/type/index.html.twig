@@ -15,6 +15,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Label</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
             <tr class="type-list" data-id="{{ type.id }}" data-order="{{type.value}}">
                 <td>{{ type.id }}</td>
                 <td>{{ type.name }}</td>
+                <td>{{ type.label }}</td>
                 <td class="d-flex">
                     <span class="table-remove mr-2">
                     <a href="{{ path('type_edit', {'id': type.id}) }}"

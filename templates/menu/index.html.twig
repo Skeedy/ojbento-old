@@ -12,8 +12,8 @@
                 <table class="table table-bordered table-responsive-md table-striped text-center">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Name</th>
+                        <th>Image</th>
                         <th>Products</th>
                         <th>Price</th>
                         <th>IsMidi</th>
@@ -24,8 +24,8 @@
                     {% for menu in menus %}
                     {%  if menu.isMidi != true %}
                     <tr class="type-list" data-id="{{ menu.id }}" data-order="{{menu.value}}">
-                        <td>{{ menu.id }}</td>
                         <td>{{ menu.name }}</td>
+                        <td>{% if menu.image %} <img src="{{ asset(menu.image.imgpath) }}" alt="{{ menu.image.alt }}" width="100px" height="100px" /> {% endif %}</td>
                         <td>{% if menu.assocs %}
                                 {% for assoc in menu.assocs %}
                                     <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>
@@ -48,8 +48,8 @@
                 <table class="table table-bordered table-responsive-md table-striped text-center">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Name</th>
+                        <th>Image</th>
                         <th>Products</th>
                         <th>Price</th>
                         <th>IsMidi</th>
@@ -60,8 +60,8 @@
                     {% for menu in menus %}
                         {%  if menu.isMidi %}
                     <tr class="type-list" data-id="{{ menu.id }}" data-order="{{menu.value}}">
-                        <td>{{ menu.id }}</td>
                         <td>{{ menu.name }}</td>
+                        <td>{% if menu.image %} <img src="{{ asset(menu.image.imgpath) }}" width="100px" height="100px" /> {% endif %}</td>
                         <td>{% if menu.assocs %}
                                 {% for assoc in menu.assocs %}
                                     <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>

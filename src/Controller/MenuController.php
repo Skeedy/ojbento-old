@@ -42,7 +42,26 @@ class MenuController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
             $entityManager = $this->getDoctrine()->getManager();
+            $image = $menu->getImage();
+            $file = $form->get('image')->get('file')->getData();
+            if ($file){
+                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('img_abs_path'), $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
+                $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
+                $entityManager->persist($image);
+            }else{
+                $menu->setImage(null);
+            }
             $entityManager->persist($menu);
             $entityManager->flush();
 
@@ -74,6 +93,29 @@ class MenuController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $image = $menu->getImage();
+            $file = $form->get('image')->get('file')->getData();
+
+            if ($file){
+                $fileName = $this->generateUniqueFileName().'.'. $file->guessExtension();
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('img_abs_path'), $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $this->removeFile($image->getPath());
+                $image->setPath($this->getParameter('img_abs_path').'/'.$fileName) ;
+                $image->setImgpath($this->getParameter('img_path').'/'.$fileName);
+                $entityManager->persist($image);
+            }
+            if ($image && empty($image->getId()) && !$file ){
+                $menu->setImage(null);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('menu_index', [
@@ -93,6 +135,10 @@ class MenuController extends AbstractController
     public function delete(Request $request, Menu $menu): Response
     {
         if ($this->isCsrfTokenValid('delete'.$menu->getId(), $request->request->get('_token'))) {
+            $image = $menu->getImage();
+            if($image) {
+                $this->removeFile($image->getPath());
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($menu);
             $entityManager->flush();
@@ -120,5 +166,16 @@ class MenuController extends AbstractController
 
         return new JsonResponse(['status' => 'success'], 202);
 
+    }
+    /**
+     * @return string
+     */
+    function generateUniqueFileName() {
+        return md5(uniqid());
+    }
+    private function removeFile($path){
+        if(file_exists($path)){
+            unlink($path);
+        }
     }
 }

@@ -3,10 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Assoc;
-use App\Entity\Command;
-use App\Entity\State;
-use App\Entity\Type;
-use App\Event\StateCommandEvent;
 use App\Form\AssocType;
 use App\Form\CommandType;
 use App\Repository\AssocRepository;
@@ -41,11 +37,12 @@ class AssocController extends AbstractController
         $assoc = new Assoc();
         $form = $this->createForm(AssocType::class, $assoc);
         $form->handleRequest($request);
+        $assoclength = count($assocRepository->findAll()) +1;
+        $assoc->setValue($assoclength);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $assoclength = count($assocRepository->findAll()) +1;
-            $assoc->setValue($assoclength);
+
             $entityManager = $this->getDoctrine()->getManager();
             $image = $assoc->getImage();
             $file = $form->get('image')->get('file')->getData();

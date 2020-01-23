@@ -93,6 +93,7 @@ class TypeController extends AbstractFOSRestController
                 ['attributes' => [
                     'id',
                     'name',
+                    'label',
                     'assocs' => ['id', 'type'=>['name'],'quantity', 'isDish', 'description', 'composition', 'product' => [
                         'id', 'name'],
                         'image' => [

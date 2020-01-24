@@ -1,20 +1,20 @@
 to_ng:
     path: /
-    host: 'localhost:4200/login'
+    host: 'pi-ti.fr'
     defaults:
-        url: 'http://ojbento.fr'
+        url: 'http://ojbento.pi-ti.fr'
 
 controllers:
-    host: 'admin.ojbento.fr'
+    host: 'admin.ojbento.pi-ti.fr'
     resource: ../../src/Controller/
     type: annotation
 
 api_auth_login:
-    host: 'api.ojbento.fr'
+    host: 'api.ojbento.pi-ti.fr'
     path: /login_check
     methods: [POST]
 
 api_controller:
-    host: 'api.ojbento.fr'
+    host: 'api.ojbento.pi-ti.fr'
     resource: ../../src/ApiController/
     type: annotation

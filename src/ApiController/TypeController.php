@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
- * @Rest\Route("/type", host="api.ojbento.fr")
+ * @Rest\Route("/type", host="shifumi.pi-ti.fr")
  */
 class TypeController extends AbstractFOSRestController
 {

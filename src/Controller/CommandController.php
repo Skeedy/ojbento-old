@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/command", host="admin.ojbento.fr")
+ * @Route("/command", host="admin.ojbento.pi-ti.fr")
  */
 class CommandController extends AbstractController
 {

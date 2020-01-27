@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/menu", host="admin.ojbento.fr")
+ * @Route("/menu", host="admin.ojbento.pi-ti.fr")
  */
 class MenuController extends AbstractController
 {

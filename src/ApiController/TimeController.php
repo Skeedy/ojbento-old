@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Route("/time", host="api.ojbento.fr")
+ * @Route("/time", host="shifumi.pi-ti.fr")
  */
 class TimeController extends  AbstractFOSRestController
 {

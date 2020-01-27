@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/type", host="admin.ojbento.fr")
+ * @Route("/type", host="admin.ojbento.pi-ti.fr")
  */
 class TypeController extends AbstractController
 {

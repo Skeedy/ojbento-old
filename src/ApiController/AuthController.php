@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Rest\Route("/auth", host="api.ojbento.fr")
+ * @Rest\Route("/auth", host="shifumi.pi-ti.fr")
  */
 class AuthController extends AbstractFOSRestController
 {

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
- * @Route("/", host="admin.ojbento.fr")
+ * @Route("/", host="admin.ojbento.pi-ti.fr")
  */
 class DefaultController extends AbstractController
 {

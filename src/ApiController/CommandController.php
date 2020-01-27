@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Serializer;
 
 
 /**
- * @Rest\Route("/command", host="api.ojbento.fr")
+ * @Rest\Route("/command", host="shifumi.pi-ti.fr")
  */
 class CommandController extends AbstractFOSRestController
 {

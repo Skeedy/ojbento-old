@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Route("/assoc", host="api.ojbento.fr")
+ * @Route("/assoc", host="shifumi.pi-ti.fr")
  */
 class AssocController extends  AbstractFOSRestController
 {

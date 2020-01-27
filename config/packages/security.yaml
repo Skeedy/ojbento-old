@@ -20,7 +20,7 @@ security:
             security: false
 
         login:
-            host: api\.ojbento\.pi-ti.fr
+            host: shifumi\.pi-ti.fr
             pattern: ^/login
             stateless: true
             logout: true
@@ -31,33 +31,33 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 
         auth_register:
-            host: api\.ojbento\.pi-ti.fr
+            host: shifumi\.pi-ti.fr
             pattern: ^/auth/register
             stateless: true
             anonymous: true
             provider: fos_userbundle
 
         api.assoc:
-            host: api\.ojbento\.pi-ti.fr
+            host: shifumi\.pi-ti.fr
             pattern: ^/assocs
             stateless: true
             anonymous: true
 
 
         api.type:
-            host: api\.ojbento\.pi-ti.fr
+            host: shifumi\.pi-ti.fr
             pattern: ^/type
             stateless: true
             anonymous: true
 
         api.menu:
-            host: api\.ojbento\.pi-ti.fr
+            host: shifumi\.pi-ti.fr
             pattern: ^/menu
             stateless: true
             anonymous: true
 
         api:
-            host: api\.ojbento\.pi-ti.fr
+            host: shifumi\.pi-ti.fr
             pattern: ^/
             stateless: true
             anonymous: false
@@ -83,5 +83,5 @@ security:
         - { path: ^/redirectTo, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: ojbento\.pi-ti.fr/login }
         - { path: ^/profil, roles: IS_AUTHENTICATED_FULLY, host: ojbento\.pi-ti.fr/profil }
         - { path: ^/command/new, roles: ROLE_USER, host: ojbento\.pi-ti.fr/login }
-        - { path: ^/type, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: api\.ojbento\.pi-ti.fr }
+        - { path: ^/type, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: shifumi.pi-ti.fr }
         - { path: ^/, role: ROLE_ADMIN , host: admin\.ojbento\.pi-ti.fr }

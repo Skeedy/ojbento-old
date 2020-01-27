@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Rest\Route("/commandassoc", host="api.ojbento.fr")
+ * @Rest\Route("/commandassoc", host="shifumi.pi-ti.fr")
  */
 class CommandassocController extends AbstractFOSRestController
 {

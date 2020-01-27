@@ -10,11 +10,11 @@ controllers:
     type: annotation
 
 api_auth_login:
-    host: 'api.ojbento.pi-ti.fr'
+    host: 'shifumi.pi-ti.fr'
     path: /login_check
     methods: [POST]
 
 api_controller:
-    host: 'api.ojbento.pi-ti.fr'
+    host: 'shifumi.pi-ti.fr'
     resource: ../../src/ApiController/
     type: annotation

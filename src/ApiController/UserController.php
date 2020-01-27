@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 /**
- * @Rest\Route("/user", host="api.ojbento.fr")
+ * @Rest\Route("/user", host="shifumi.pi-ti.fr")
  */
 class UserController extends AbstractFOSRestController
 {

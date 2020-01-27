@@ -10,7 +10,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/article", host="api.ojbento.fr")
+ * @Route("/article", host="shifumi.pi-ti.fr")
  */
 
 class ArticleController extends  AbstractFOSRestController

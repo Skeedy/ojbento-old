@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/user", host="admin.ojbento.fr")
+ * @Route("/user", host="admin.ojbento.pi-ti.fr")
  */
 class UserController extends AbstractController
 {

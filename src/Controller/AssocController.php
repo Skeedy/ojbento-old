@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/assoc", host="admin.ojbento.fr")
+ * @Route("/assoc", host="admin.ojbento.pi-ti.fr")
  */
 class AssocController extends AbstractController
 {

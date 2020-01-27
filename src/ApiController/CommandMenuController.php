@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Rest\Route("/commandmenu", host="api.ojbento.fr")
+ * @Rest\Route("/commandmenu", host="shifumi.pi-ti.fr")
  */
 class CommandMenuController extends AbstractFOSRestController
 {

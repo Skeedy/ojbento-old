@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/pricetype", host="admin.ojbento.fr")
+ * @Route("/pricetype", host="admin.ojbento.pi-ti.fr")
  */
 class PricetypeController extends AbstractController
 {

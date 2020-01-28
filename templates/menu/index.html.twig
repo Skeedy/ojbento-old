@@ -3,29 +3,29 @@
 {% block title %}Menus{% endblock %}
 
 {% block body %}
-
-    <div class="card">
-        <h1 class="card-header text-center font-weight-bold text-uppercase py-4">Menus</h1>
-        <div class="card-body">
-            <div id="table" class="table-editable">
-                <h1>Menu normal</h1>
-                <table class="table table-bordered table-responsive-md table-striped text-center">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Products</th>
-                        <th>Price</th>
-                        <th>IsMidi</th>
-                        <th>actions</th>
-                    </tr>
-                    </thead>
-                    <tbody class="sortable">
-                    {% for menu in menus %}
-                    {%  if menu.isMidi != true %}
+<a class="btn btn-primary btn-rounded my-3 float-right" style="margin: 40px" href="{{ path('menu_new') }}">Créer un menu</a>
+    <div id="table" class="table-editable">
+        <h1>Menu normal</h1>
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Products</th>
+                <th>Price</th>
+                <th>IsMidi</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody class="sortable">
+            {% for menu in menus %}
+                {%  if menu.isMidi != true %}
                     <tr class="type-list" data-id="{{ menu.id }}" data-order="{{menu.value}}">
                         <td>{{ menu.name }}</td>
-                        <td>{% if menu.image %} <img src="{{ asset(menu.image.imgpath) }}" alt="{{ menu.image.alt }}" width="100px" height="100px" /> {% endif %}</td>
+                        <td>{% if menu.image %} <img src="{{ asset(menu.image.imgpath) }}" alt="{{ menu.image.alt }}" width="100px" height="100px" />
+                                <br>
+                                {{ menu.image.alt }}
+                            {% endif %}</td>
                         <td>{% if menu.assocs %}
                                 {% for assoc in menu.assocs %}
                                     <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>
@@ -35,33 +35,35 @@
                         <td>{% for price in menu.prices %} <div> {{ price.value }}€ {{ price.type }}</div>{% endfor %}</td>
                         <td>{{ menu.isMidi ? 'Yes' : 'No' }}</td>
                         <td>
-                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_show', {'id': menu.id}) }}">show</a>
-                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_edit', {'id': menu.id}) }}">edit</a>
-                        </td>
+                            <a class="btn btn-info btn-rounded btn-sm my-3" href="{{ path('menu_edit', {'id': menu.id}) }}">Editer</a>
+                            <a>{{ include('menu/_delete_form.html.twig') }}</a>
                         </td>
                     </tr>
-                    {%  endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <h1>Menu du midi</h1>
-                <table class="table table-bordered table-responsive-md table-striped text-center">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Products</th>
-                        <th>Price</th>
-                        <th>IsMidi</th>
-                        <th>actions</th>
-                    </tr>
-                    </thead>
-                    <tbody class="sortable">
-                    {% for menu in menus %}
-                        {%  if menu.isMidi %}
+                {%  endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <h1>Menu du midi</h1>
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Products</th>
+                <th>Price</th>
+                <th>IsMidi</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody class="sortable">
+            {% for menu in menus %}
+                {%  if menu.isMidi %}
                     <tr class="type-list" data-id="{{ menu.id }}" data-order="{{menu.value}}">
                         <td>{{ menu.name }}</td>
-                        <td>{% if menu.image %} <img src="{{ asset(menu.image.imgpath) }}" width="100px" height="100px" /> {% endif %}</td>
+                        <td>{% if menu.image %} <img src="{{ asset(menu.image.imgpath) }}" width="100px" height="100px" />
+                                <br>
+                                {{ menu.image.alt }}
+                            {% endif %}</td>
                         <td>{% if menu.assocs %}
                                 {% for assoc in menu.assocs %}
                                     <div> {{ assoc.quantity }} {{ assoc.type }} {{ assoc.product.name }}</div>
@@ -71,19 +73,15 @@
                         <td>{% for price in menu.prices %} <div> {{ price.value }}€ {{ price.type }}</div>{% endfor %}</td>
                         <td>{{ menu.isMidi ? 'Yes' : 'No' }}</td>
                         <td>
-                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_show', {'id': menu.id}) }}">show</a>
-                            <a class="btn btn-danger btn-rounded btn-sm my-0" href="{{ path('menu_edit', {'id': menu.id}) }}">edit</a>
-                        </td>
+                            <a class="btn btn-info btn-rounded btn-sm my-3" href="{{ path('menu_edit', {'id': menu.id}) }}">Editer</a>
+                            <a>{{ include('menu/_delete_form.html.twig') }}</a>
                         </td>
                     </tr>
-                    {%  endif %}
-                    {% endfor %}
+                {%  endif %}
+            {% endfor %}
 
-                    </tbody>
-                </table>
-                <a class="btn btn-primary btn-rounded btn-sm my-0" href="{{ path('menu_new') }}">Create new</a>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 {% block javascripts %}

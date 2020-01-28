@@ -37,25 +37,29 @@
                    {% endif %}
                 </li>
                 <li> <a href="{{ path("homepage") }}">Dashboard</a></li>
-                <li> <a href="{{ path("command_index") }}">Commandes</a>
-                    <div>
-                        <a href="{{ path("command_index") }}">Commandes en attente</a>
+{#                <li> <a href="{{ path("command_index") }}">Commandes</a>#}
+{#                    <div>#}
+{#                        <a href="{{ path("command_index") }}">Commandes en attente</a>#}
 {#                        <a href="{{ path("") }}"> </a>#}
-                    </div>
-                </li>
-                <li><a href="{{ path("article_index") }}">Articles</a>
-                    <div>
-                        <a href="{{ path("article_new") }}">Créer un article</a>
-                        <a href="{{ path("article_index") }}">Lister les articles</a>
-                    </div>
-                </li>
+{#                    </div>#}
+{#                </li>#}
+{#                <li><a href="{{ path("article_index") }}">Articles</a>#}
+{#                    <div>#}
+{#                        <a href="{{ path("article_new") }}">Créer un article</a>#}
+{#                        <a href="{{ path("article_index") }}">Lister les articles</a>#}
+{#                    </div>#}
+{#                </li>#}
                 <li><a href="{{ path("assoc_index") }}">Produits</a>
                     <div>
                         <a href="{{ path("assoc_index") }}"> Lister les associations</a>
                         <a href="{{ path("assoc_new") }}"> Créer une association</a>
                         <a href="{{ path("product_index") }}"> Lister/Créer les produits</a>
-                        <a href="{{ path("type_index") }}"> Lister/Créer un type</a>
 
+                    </div>
+                <li><a href="{{ path("type_index") }}">Types</a>
+                    <div>
+                    <a href="{{ path("type_index") }}"> Lister/Créer un type</a>
+                    <a href="{{ path("type_new") }}"> Créer un type</a>
                     </div>
                 </li>
                 <li>

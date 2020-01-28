@@ -13,7 +13,6 @@
       <table class="table table-bordered table-responsive-md table-striped text-center">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Label</th>
                 <th>actions</th>
@@ -22,7 +21,6 @@
         <tbody class="sortable">
         {% for type in types %}
             <tr class="type-list" data-id="{{ type.id }}" data-order="{{type.value}}">
-                <td>{{ type.id }}</td>
                 <td>{{ type.name }}</td>
                 <td>{{ type.label }}</td>
                 <td class="d-flex">

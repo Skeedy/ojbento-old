@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1 class="text-center">Création d'un nouveau menu</h1>
+    <h1 class="text-center">Edition du menu "{{ menu.name }}"</h1>
     {{ form_start(form) }}
     <div class="float-right">
         <button class=" btn btn-dark"><a href="{{ path('menu_index') }}">Retour à la liste</a></button>
@@ -18,7 +18,13 @@
                 {{ form_row(form.isMidi) }}
                 {{ form_row(form.image) }}
             </div>
+            <div class="col-6">
+                {% if menu.image %}
+                    <img src="{{ asset(menu.image.imgpath) }}" width="300" height="300" id="preview">
+                {% endif %}
+            </div>
         </div>
+
         <div class="row">
             <div class="col-6">
                 <div class="d-flex assoc_header"> <h2>Les produits</h2></div>
@@ -53,5 +59,6 @@
         $(document).ready(function(){
             $('#assoc_forMenu').val('0');
         })
+
     </script>
 {% endblock %}

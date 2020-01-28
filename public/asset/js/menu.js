@@ -1,14 +1,14 @@
 
-    var $assocCollection;
-    var $addMenuButton = $('<button type= "button" class="mt-3 btn btn-danger btn-rounded btn-sm my-0 add_item_link">+ Ajouter un produit </button>');
-    var $newAssoc = $('<div></div>').append($addMenuButton);
+var $assocCollection;
+var $addMenuButton = $('<button type= "button" class="mt-3 btn btn-danger btn-rounded btn-sm my-0 add_item_link">+ Ajouter un produit </button>');
+var $newAssoc = $('<div></div>').append($addMenuButton);
 var indexMenu= 0;
 
     $assocCollection = $('#menu_assocs');
     $assocCollection.append($newAssoc);
 
     $assocCollection.find('.assoc').each(function(){
-        addPriceFormDelete($(this));
+        addAssocFormDelete($(this));
     });
     $assocCollection.data('index', $assocCollection.find('.assoc').length);
     $addMenuButton.on('click',function(e){
@@ -75,4 +75,13 @@ function addPriceFrom($collectionHolder, $newItemLi) {
     if ($('.price-value').length > 1){
         addPriceFormDelete($newFormLi);
     }
+}
+var imageBox = document.getElementById('preview');
+function previewImage(){
+    var imageUpload = URL.createObjectURL(event.target.files[0]);
+    imageBox.src = imageUpload;
+    imageBox.setAttribute('style', 'display: block');
+}
+if (imageBox.src){
+    imageBox.setAttribute('style', 'display: block');
 }

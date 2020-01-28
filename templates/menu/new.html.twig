@@ -17,6 +17,10 @@
                 {{ form_row(form.name) }}
                 {{ form_row(form.isMidi) }}
                 {{ form_row(form.image) }}
+
+            </div>
+            <div class="col-6">
+                <img id="preview" style="display: none" width="200" height="200">
             </div>
         </div>
         <div class="row">
@@ -54,6 +58,9 @@
             addMenuFrom($('#menu_assocs'), $newAssoc);
             addPriceFrom($('#menu_prices'), $newPrice);
 
-        })
+        });
+
+
+
     </script>
 {% endblock %}

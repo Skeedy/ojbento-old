@@ -37,3 +37,12 @@ function addPriceFrom($collectionHolder, $newItemLi) {
     }
 
 }
+var imageBox = document.getElementById('preview');
+function previewImage(){
+    var imageUpload = URL.createObjectURL(event.target.files[0]);
+    imageBox.src = imageUpload;
+    imageBox.setAttribute('style', 'display: block');
+}
+if (imageBox.src){
+    imageBox.setAttribute('style', 'display: block');
+}
